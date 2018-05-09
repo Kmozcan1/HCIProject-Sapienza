@@ -189,29 +189,28 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
                             println(usr.userPassword)
                             userPasswordMatch = true
                         }
+                        if((userAlreadyExist!!)&&(userPasswordMatch!!)){
+
+                            break
+                        }
                         else{
                             userAlreadyExist =false
                             userPasswordMatch = false
-
-
                         }
-                        if((userAlreadyExist!!)&&(userPasswordMatch!!)){
-                            //User has been authenticated , can log in
-                            Toast.makeText(applicationContext,"Login successful! ", Toast.LENGTH_LONG).show()
-                            // direct to the relevant activity
 
-                            //FILL HERE LATER
-                            break
+                    }
+                    if((userAlreadyExist!!)&&(userPasswordMatch!!)){
+                        //User has been authenticated , can log in
+                        Toast.makeText(applicationContext,"Login successful! ", Toast.LENGTH_LONG).show()
+                        // direct to the relevant activity
 
+                        //FILL HERE LATER
 
-                        }
-                        else{
-                            // e-mail address or password does not match re-try!!
-                            Toast.makeText(applicationContext,"Login failed! ", Toast.LENGTH_LONG).show()
-                            break
-
-                            //focus both on email and password fields
-                        }
+                    }
+                    else{
+                        // e-mail address or password does not match re-try!!
+                        Toast.makeText(applicationContext,"Login failed! ", Toast.LENGTH_LONG).show()
+                        //focus both on email and password fields
                     }
                 }
             }
