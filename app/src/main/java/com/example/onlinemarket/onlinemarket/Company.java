@@ -1,8 +1,11 @@
 package com.example.onlinemarket.onlinemarket;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+
+import java.sql.Time;
 
 public class Company {
 
@@ -58,6 +61,29 @@ public class Company {
 
     public void setCloseTime(String closeTime) {
         this.closeTime = closeTime;
+    }
+    public String calculateOpenOrClosed(){
+        int hour1 = Integer.parseInt(getOpenTime().substring(0, 2));
+        int minute1 = Integer.parseInt(getOpenTime().substring(3));
+
+        int hour2 = Integer.parseInt(getCloseTime().substring(0, 2));
+        int minute2 = Integer.parseInt(getCloseTime().substring(3));
+
+        int currenthour = new Time(System.currentTimeMillis()).getHours();
+        int currentminute = new Time(System.currentTimeMillis()).getMinutes();
+
+        if(currenthour> hour1 && currenthour<hour2){
+            return "Open";
+        }
+        else if(currenthour== hour1 && currentminute>= minute1){
+            return "Open";
+        }
+        else if(currenthour==hour2 && currentminute<=minute2){
+            return "Open";
+        }
+        else{
+            return "Closed";
+        }
     }
 
 
