@@ -49,6 +49,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         // Set up the login form.
@@ -203,6 +204,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
                         //User has been authenticated , can log in
                         Toast.makeText(applicationContext,"Login successful! ", Toast.LENGTH_LONG).show()
                         // direct to the relevant activity
+                        directMainActivity(email.text.toString())
 
                         //FILL HERE LATER
 
@@ -216,6 +218,12 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             }
         })
 
+    }
+
+    private fun directMainActivity(userEmail: String){
+        val mainActivityIntent = Intent(this,MainActivity::class.java)
+        mainActivityIntent.putExtra("userEmail",userEmail)
+        startActivity(mainActivityIntent)
     }
 
     private fun directRegister(){
