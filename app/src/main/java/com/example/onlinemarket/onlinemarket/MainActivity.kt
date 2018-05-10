@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
             override fun onDataChange(p0: DataSnapshot?) {
+                companyList.clear()
                 if(p0!!.exists()) {
                     for (cmpObject in p0.children) {
                         val name= cmpObject.child("companyName").getValue(String::class.java)
@@ -64,11 +65,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                 }
             }
-
-
         })
-
-
 
     }
 
