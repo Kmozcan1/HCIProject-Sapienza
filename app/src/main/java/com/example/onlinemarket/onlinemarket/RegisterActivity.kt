@@ -19,6 +19,7 @@ var email : String ?=null
 var password1 : String ?=null
 var password2 : String ?=null
 var address1 : String ?= null
+var userMobileNum : String ?= null
 
 var cancel = false
 var focusView: View? = null
@@ -27,6 +28,8 @@ var isMailValid : Boolean ?=null
 var isNamesValid : Boolean ?= null
 var isPasswordValid : Boolean ?= null
 var isAdressValid : Boolean ?= null
+var isNumValid : Boolean ?= null
+
 
 var isCountryValid : Boolean ?= null
 var isCityValid : Boolean ?= null
@@ -82,6 +85,7 @@ class RegisterActivity : AppCompatActivity() {
             password1 =password.text.toString()
             password2 =re_password.text.toString()
             address1= address.text.toString()
+            userMobileNum =user_phone.text.toString()
 
 
             //RESET ERRORS
@@ -91,12 +95,13 @@ class RegisterActivity : AppCompatActivity() {
             password.error = null
             re_password.error = null
             address.error = null
+            user_phone.error = null
 
 
             if((checkEmail(email!!)==true)&&(checkNames(firstname!!, lastname!!)==true)
-                    &&(checkPassword(password1!!,password2!!) ==true)
+                    &&(checkPassword(password1!!,password2!!) ==true) &&(checkNum(userMobileNum!!)==true)
                     &&(checkAddress(address1!!)==true)&&(isCountryValid!!)
-                    &&(isCityValid!!)&&(isZoneValid!!)){
+                    &&(isCityValid!!)&&(isZoneValid!!)&&(isNumValid!!)){
                 println("Dataretrieve will be done ! ")
 
                 reference!!.addValueEventListener(object : ValueEventListener{
@@ -199,6 +204,31 @@ class RegisterActivity : AppCompatActivity() {
         return isMailValid
 
     }
+    private fun checkNum(num : String): Boolean? {
+
+        if(TextUtils.isEmpty(num)){
+
+            user_phone.error = getString(R.string.error_field_required)
+            focusView = user_phone
+            cancel = true
+            isNumValid = false
+        }
+
+        else{
+            cancel = false
+            isNumValid = true
+        }
+        if (cancel) {
+
+            // There was an error; don't attempt register and focus the first
+            // form field with an error.
+            focusView?.requestFocus()
+        }
+
+        return isNumValid
+
+    }
+
     private fun checkNames(firstname : String,lastname : String): Boolean?{
         if(TextUtils.isEmpty(firstname)){
             firstName.error = getString(R.string.error_field_required)
