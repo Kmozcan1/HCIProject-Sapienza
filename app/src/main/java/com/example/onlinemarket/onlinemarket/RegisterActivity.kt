@@ -1,5 +1,6 @@
 package com.example.onlinemarket.onlinemarket
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -97,7 +98,6 @@ class RegisterActivity : AppCompatActivity() {
             address.error = null
             user_phone.error = null
 
-
             if((checkEmail(email!!)==true)&&(checkNames(firstname!!, lastname!!)==true)
                     &&(checkPassword(password1!!,password2!!) ==true) &&(checkNum(userMobileNum!!)==true)
                     &&(checkAddress(address1!!)==true)&&(isCountryValid!!)
@@ -171,7 +171,14 @@ class RegisterActivity : AppCompatActivity() {
 
         ref.child(userId).setValue(userObject).addOnCompleteListener{
             Toast.makeText(applicationContext,"You registered successfully ! ", Toast.LENGTH_LONG).show()
+            directMainActivity(email)
+
         }
+    }
+    private fun directMainActivity(userEmail: String){
+        val mainActivityIntent = Intent(this,MainActivity::class.java)
+        mainActivityIntent.putExtra("userEmail",userEmail)
+        startActivity(mainActivityIntent)
     }
 
     private fun checkEmail(email : String): Boolean? {

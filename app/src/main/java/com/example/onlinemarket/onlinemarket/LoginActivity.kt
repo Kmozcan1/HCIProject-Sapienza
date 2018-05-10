@@ -143,7 +143,9 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             email.error = getString(R.string.error_field_required)
             focusView = email
             cancel = true
-        } else if (!isEmailValid(emailStr)) {
+        }
+
+        else if (!isEmailValid(emailStr)) {
             email.error = getString(R.string.error_invalid_email)
             focusView = email
             cancel = true
@@ -151,6 +153,12 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             password_login.error = getString(R.string.error_field_required)
             focusView = password_login
             cancel = true
+        }
+        else if(emailStr.equals("admin")){
+            if(passwordStr.equals("9876")){
+                val adminIntent = Intent(this,AdminActivity::class.java)
+                startActivity(adminIntent)
+            }
         }
 
         if (cancel) {
@@ -169,6 +177,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
     }
     private fun authenticate(){
+
         reference!!.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
