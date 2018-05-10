@@ -137,7 +137,7 @@ class RegisterActivity : AppCompatActivity() {
 
                 }
                 else{
-                    finishRegistration(firstname!!,lastname!!,email!!,password1!!,password2!!,
+                    finishRegistration(firstname!!,lastname!!,email!!,password1!!,userMobileNum!!,
                             address1!!,selectedCountry!!, selectedCity!!, selectedZone!!)
                 }
 
@@ -157,12 +157,12 @@ class RegisterActivity : AppCompatActivity() {
 
     }
     private fun finishRegistration(firstname : String,lastname : String,email : String,password1 : String,
-                                   password2 : String,address : String,selectedCountry :String,
+                                   userMobileNum : String,address : String,selectedCountry :String,
                                    selectedCity :String, selectedZone :String){
 
         //CHECK IF USER ALREADY EXISTS OR NOT AND WRITE ALL INFO TO DATABASE
 
-        val userObject :User = User(firstname,lastname,email,password1,password2,
+        val userObject :User = User(firstname,lastname,email,password1, userMobileNum,
                                     selectedCountry,selectedCity,selectedZone,address)
 
         val ref = FirebaseDatabase.getInstance().getReference("users")
