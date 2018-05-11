@@ -40,7 +40,15 @@
         <activity
             android:name=".ProductActivity"
             android:label="@string/title_activity_product"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AdminActivity"
+            android:label="@string/title_adminActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".InsertProductActivity"
+            android:label="@string/title_insertProductActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
