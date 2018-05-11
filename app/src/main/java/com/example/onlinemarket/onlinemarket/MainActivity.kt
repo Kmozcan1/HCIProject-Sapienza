@@ -1,6 +1,7 @@
 package com.example.onlinemarket.onlinemarket
 
 import android.annotation.TargetApi
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
@@ -11,13 +12,20 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import com.example.onlinemarket.onlinemarket.R.id.drawer_layout
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import com.google.android.gms.internal.tv
+import android.widget.AdapterView
+
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -39,8 +47,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-        val companyList = ArrayList<Company>()
+        val emailText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.e_mail_label)
+        emailText.text= intent.getSerializableExtra("userEmail").toString()
 
+        val companyList = ArrayList<Company>()
         val companyListView = findViewById<ListView>(R.id.company_list_view)
 
 
@@ -66,6 +76,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
         })
+        val productIntent = Intent(this,ProductActivity::class.java)
+        companyListView.onItemClickListener = object : AdapterView.OnItemClickListener {
+            override fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                // Get the selected item text from ListView
+                val selectedItem = parent.getItemAtPosition(position) as Company
+                startActivity(productIntent)
+            }
+        };
 
     }
 
