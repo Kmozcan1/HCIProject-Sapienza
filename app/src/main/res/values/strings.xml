@@ -48,5 +48,13 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_product">Products</string>
+    <string name="tab_text_1">Food</string>
+    <string name="tab_text_2">Grocery</string>
+    <string name="tab_text_3">Drink</string>
+    <string name="tab_text_4">Personal Care</string>
+    <string name="tab_text_5">Cleaning Products</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="productsTitle">Product Categories</string>
 
 </resources>

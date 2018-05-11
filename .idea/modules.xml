@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/OnlineMarket.iml" filepath="$PROJECT_DIR$/OnlineMarket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HCIProject-Sapienza.iml" filepath="$PROJECT_DIR$/HCIProject-Sapienza.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
