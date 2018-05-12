@@ -9,8 +9,9 @@ class AdminActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
-        button_insert_company.setOnClickListener {
-            intent = Intent(this,MainActivity::class.java)
+        insert_product_button.setOnClickListener {
+            intent = Intent(this,InsertProductActivity::class.java)
+            startActivity(intent)
         }
 
     }

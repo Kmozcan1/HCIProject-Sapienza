@@ -1,6 +1,5 @@
 package com.example.onlinemarket.onlinemarket;
 
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -86,5 +85,9 @@ public class Company {
         }
     }
 
+    @Override
+    public String toString() {
+        return this.companyName;
+    }
 
 }

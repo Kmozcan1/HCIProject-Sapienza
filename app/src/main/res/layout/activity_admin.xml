@@ -14,7 +14,7 @@
 
 
     <Button
-        android:id="@+id/button_insert_company"
+        android:id="@+id/insert_company_button"
         android:layout_width="0dp"
         android:layout_height="44dp"
         android:layout_marginEnd="16dp"
@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_insert_product"
+        android:id="@+id/insert_product_button"
         android:layout_width="0dp"
         android:layout_height="49dp"
         android:layout_marginEnd="16dp"
@@ -35,10 +35,10 @@
         android:text="@string/insertProduct"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_insert_company" />
+        app:layout_constraintTop_toBottomOf="@+id/insert_company_button" />
 
     <Button
-        android:id="@+id/button_edit_product"
+        android:id="@+id/edit_product_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -47,5 +47,5 @@
         android:text="@string/editProduct"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_insert_product" />
+        app:layout_constraintTop_toBottomOf="@+id/insert_product_button" />
 </android.support.constraint.ConstraintLayout>
