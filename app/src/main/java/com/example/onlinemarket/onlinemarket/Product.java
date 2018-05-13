@@ -15,7 +15,7 @@ public class Product {
         return price;
     }
 
-    public String getCompanies() {
+    public String getCompany() {
         return company;
     }
 

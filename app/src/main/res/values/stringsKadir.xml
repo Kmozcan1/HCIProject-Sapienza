@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="insertCompany">Insert Company</string>
+    <string name="insertProduct">Insert Product</string>
+    <string name="editProduct">Edit Product</string>
+    <string name="productName">Product Name</string>
+    <string name="productCategory">Product Category</string>
+    <string name="productPrice">Product Price</string>
+    <string name="imageBrowseButton">Browse</string>
+    <string name="title_adminActivity">Admin Page</string>
+    <string name="title_insertProductActivity">Insert Product</string>
+    <string name="submitProduct">Submit Product</string>
+    <string name="companySpinnerHint">Please Select a Company</string>
+    <string name="categorySpinnerHint">Please Select a Category</string>
+</resources>
