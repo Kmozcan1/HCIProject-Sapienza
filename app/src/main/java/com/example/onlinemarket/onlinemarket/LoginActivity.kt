@@ -154,12 +154,12 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             focusView = password_login
             cancel = true
         }
-        else if(emailStr.equals("admin")){
+        /*else if(emailStr.equals("admin")){
             if(passwordStr.equals("9876")){
                 val adminIntent = Intent(this,AdminActivity::class.java)
                 startActivity(adminIntent)
             }
-        }
+        }*/
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
