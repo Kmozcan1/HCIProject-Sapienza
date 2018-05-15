@@ -13,4 +13,5 @@
     <string name="companySpinnerHint">Please Select a Company</string>
     <string name="categorySpinnerHint">Please Select a Category</string>
     <string name="title_productListActivity">Edit Product</string>
+    <string name="search_title">Search</string>
 </resources>

@@ -4,5 +4,5 @@ package com.example.onlinemarket.onlinemarket
  * Created by:  Kadir Mert Ozcan
  * Used in:     ProductSearchListViewAdapter
  * */
-data class ProductListItemData(val ProductName: String,
-                               val productImage: String, var companyImage: String?)
+data class ProductListItemData(val productName: String,
+                               val productImage: String, var companyName: String, var companyImage: String?)

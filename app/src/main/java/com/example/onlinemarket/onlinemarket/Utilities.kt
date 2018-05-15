@@ -23,12 +23,9 @@ object Utilities {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-
             }
         })
-
         return imageString
-
     }
 
     fun getCompanies(listener: FireBaseListener) {
