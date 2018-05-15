@@ -12,4 +12,5 @@
     <string name="submitProduct">Submit Product</string>
     <string name="companySpinnerHint">Please Select a Company</string>
     <string name="categorySpinnerHint">Please Select a Category</string>
+    <string name="title_productListActivity">Edit Product</string>
 </resources>

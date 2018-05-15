@@ -51,6 +51,10 @@
             android:name=".InsertProductActivity"
             android:label="@string/title_insertProductActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProductListActivity"
+            android:label="@string/title_productListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

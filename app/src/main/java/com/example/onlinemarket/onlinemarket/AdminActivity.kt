@@ -13,6 +13,9 @@ class AdminActivity : AppCompatActivity() {
             intent = Intent(this,InsertProductActivity::class.java)
             startActivity(intent)
         }
-
+        edit_product_button.setOnClickListener {
+            intent = Intent(this, ProductListActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
