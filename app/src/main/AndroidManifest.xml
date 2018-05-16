@@ -46,15 +46,26 @@
         <activity
             android:name=".AdminActivity"
             android:label="@string/title_adminActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".InsertProductActivity"
             android:label="@string/title_insertProductActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ProductListActivity"
             android:label="@string/title_productListActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+
+        </activity>
+        <meta-data android:name="android.app.default_searchable"
+            android:value=".MySearchableActivity" />
+
     </application>
 
 </manifest>

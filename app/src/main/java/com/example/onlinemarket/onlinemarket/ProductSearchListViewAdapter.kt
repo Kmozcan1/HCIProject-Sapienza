@@ -6,13 +6,12 @@ import android.support.annotation.RequiresApi
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class ProductSearchListViewAdapter(context: Context, resource: Int, list: MutableList<ProductListItemData>) :
-        ArrayAdapter<ProductListItemData>(context, resource, list) {
+        ArrayAdapter<ProductListItemData>(context, resource, list), Filterable {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         //Get the view
@@ -29,10 +28,10 @@ class ProductSearchListViewAdapter(context: Context, resource: Int, list: Mutabl
 
         //Fill layout elements
         productImageView.setImageBitmap(imageTransform.StringToBitmap(productListItem.productImage))
-        productNameTextView.text = productListItem.ProductName
+        productNameTextView.text = productListItem.productName
         companyImageView.setImageBitmap(imageTransform.StringToBitmap(productListItem.companyImage))
 
         return view
     }
-
 }
+
