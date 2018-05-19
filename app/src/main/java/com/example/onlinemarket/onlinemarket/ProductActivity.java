@@ -1,8 +1,10 @@
 package com.example.onlinemarket.onlinemarket;
 
+import android.app.Activity;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -20,6 +22,12 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -39,28 +47,34 @@ public class ProductActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    public String companyName;
+    public Double TotalPrice;
+    public ArrayList<Product> productList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
+        companyName = getIntent().getSerializableExtra("companyName").toString();
+        TotalPrice= 0.0;
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(10);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +96,27 @@ public class ProductActivity extends AppCompatActivity {
         tabLayout.getTabAt(3).setIcon(ICONS[3]);
         tabLayout.getTabAt(4).setIcon(ICONS[4]);
 
+        productList= new ArrayList<>();
+        final DatabaseReference FBdatabase = FirebaseDatabase.getInstance().getReference("products");
+        FBdatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot productObject : dataSnapshot.getChildren()) {
+                    if (companyName.equals(productObject.child("company").getValue())) {
+                        String p_name = (String) productObject.child("productName").getValue();
+                        String p_image = (String) productObject.child("productImage").getValue();
+                        Double p_price = (Double) productObject.child("price").getValue();
+                        String p_category = (String) productObject.child("category").getValue();
+                        Product product = new Product(p_name, p_price, companyName, p_image, p_category);
+                        productList.add(product);
+                    }
+                }
+                //FBdatabase.removeEventListener(this);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
 
@@ -116,6 +151,8 @@ public class ProductActivity extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private static final String ARG_COMPANY_NAME = "company_name";
+        private static final String ARG_PRODUCT_LIST = "product_list";
 
         public PlaceholderFragment() {
         }
@@ -124,20 +161,29 @@ public class ProductActivity extends AppCompatActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
+        public static PlaceholderFragment newInstance(int sectionNumber, String companyName, ArrayList<Product> productList) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            args.putString(ARG_COMPANY_NAME, companyName);
+            args.putSerializable(ARG_PRODUCT_LIST,productList);
             fragment.setArguments(args);
             return fragment;
         }
-
+        public String getCategoryName(int tabID){
+            String[] names = {"Food", "Grocery", "Drink", "PersonalCare", "Cleaning"};
+            return names[tabID];
+        }
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_product, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            ImageView imageView= (ImageView) rootView.findViewById(R.id.section_image);
+            final View rootView = inflater.inflate(R.layout.fragment_product, container, false);
+            TextView textView = rootView.findViewById(R.id.section_label);
+            ImageView imageView= rootView.findViewById(R.id.section_image);
+
+            final String companyName = getArguments().getString(ARG_COMPANY_NAME);
+            final int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER)-1;
+            final ArrayList<Product> productList =(ArrayList<Product>) getArguments().getSerializable(ARG_PRODUCT_LIST);
             int [] Labels= new int[]{
                     R.string.tab_text_1,
                     R.string.tab_text_2,
@@ -145,21 +191,42 @@ public class ProductActivity extends AppCompatActivity {
                     R.string.tab_text_4,
                     R.string.tab_text_5
             };
-            textView.setText(getString(Labels[getArguments().getInt(ARG_SECTION_NUMBER)-1]));
+            textView.setText(getString(Labels[sectionNumber]));
             final int[] ICONS = new int[]{
                     R.drawable.food,
                     R.drawable.grocery,
                     R.drawable.drink,
                     R.drawable.personalcare,
                     R.drawable.cleaning};
-            imageView.setImageResource(ICONS[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
+            imageView.setImageResource(ICONS[sectionNumber]);
 
-            ArrayList<Product> productList= new ArrayList<Product>();
-            Product e1= new Product("asd", 0.50, "", "", "cleaning");
-            productList.add(e1);
-            GridView gridView=  rootView.findViewById(R.id.productGridView);
-            GridAdapter gridAdapter = new GridAdapter(getActivity(),productList);
-            gridView.setAdapter(gridAdapter);
+
+            
+            final GridView gridView=  rootView.findViewById(R.id.productGridView);
+            final TextView priceText= getActivity().findViewById(R.id.priceText);
+
+
+
+           ArrayList <Product> categorizedList= new ArrayList<>();
+           if(productList!=null)
+               for (Product productObject:productList) {
+                    if(productObject.category.equals(getCategoryName(sectionNumber))) {
+                        categorizedList.add(productObject);
+                        categorizedList.add(productObject);
+                        categorizedList.add(productObject);
+                        categorizedList.add(productObject);
+                        categorizedList.add(productObject);
+                        categorizedList.add(productObject);
+                        categorizedList.add(productObject);
+
+                    }
+                }
+           GridAdapter gridAdapter = new GridAdapter(getActivity().getApplicationContext(),categorizedList,priceText );
+           
+           gridView.setScrollingCacheEnabled(false);
+           gridView.setAnimationCacheEnabled(false);
+           gridView.setAdapter(gridAdapter);
+
             return rootView;
         }
     }
@@ -178,7 +245,7 @@ public class ProductActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            return PlaceholderFragment.newInstance(position + 1, companyName, productList);
         }
 
         @Override

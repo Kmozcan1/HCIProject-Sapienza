@@ -1,6 +1,8 @@
 package com.example.onlinemarket.onlinemarket;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     String productName;
     Double price;
     String company;
