@@ -177,12 +177,18 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
     }
     private fun authenticate(){
+        var loggedUser: User? = null
 
         reference!!.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
             override fun onDataChange(p0: DataSnapshot?) {
+                if((userAlreadyExist!!)&&(userPasswordMatch!!))
+                {
+                    userAlreadyExist =false
+                    userPasswordMatch = false
+                }
 
                 if(p0!!.exists()){
 
@@ -200,7 +206,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
                             userPasswordMatch = true
                         }
                         if((userAlreadyExist!!)&&(userPasswordMatch!!)){
-
+                            loggedUser=usr
                             break
                         }
                         else{
@@ -211,12 +217,12 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
                     }
                     if((userAlreadyExist!!)&&(userPasswordMatch!!)){
                         //User has been authenticated , can log in
+
                         Toast.makeText(applicationContext,"Login successful! ", Toast.LENGTH_LONG).show()
+
                         // direct to the relevant activity
-                        directMainActivity(email.text.toString())
-
+                        directMainActivity(loggedUser!!)
                         //FILL HERE LATER
-
                     }
                     else{
                         // e-mail address or password does not match re-try!!
@@ -229,9 +235,17 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
     }
 
-    private fun directMainActivity(userEmail: String){
+    private fun directMainActivity(user: User){
         val mainActivityIntent = Intent(this,MainActivity::class.java)
-        mainActivityIntent.putExtra("userEmail",userEmail)
+        mainActivityIntent.putExtra("userEmail",user.email)
+        mainActivityIntent.putExtra("userName", user.firstName)
+        mainActivityIntent.putExtra("userLastName", user.lastname)
+        mainActivityIntent.putExtra("userAddress", user.address)
+        mainActivityIntent.putExtra("userZone", user.zone)
+        mainActivityIntent.putExtra("userCity", user.city)
+        mainActivityIntent.putExtra("userCountry", user.country)
+        mainActivityIntent.putExtra("userMobilePhone", user.userMobilePhone)
+        mainActivityIntent.putExtra("userPassword", user.userPassword)
         startActivity(mainActivityIntent)
     }
 
