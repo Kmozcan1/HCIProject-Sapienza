@@ -21,14 +21,19 @@ import android.support.v4.content.ContextCompat
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
+import android.support.v4.app.ActivityCompat.startActivityForResult
+import com.example.onlinemarket.onlinemarket.R.id.*
 
 private const val PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 0
 private const val BROWSE_GALLERY_FOR_PRODUCT_IMAGE = 0
 private const val PRODUCT_SUBMITTED_MESSAGE = "You have submitted a product successfully!"
+private const val PRODUCT_UPDATED_MESSAGE = "You have updated a product successfully"
 private const val CATEGORY_NOT_SELECTED_MESSAGE = "Please select a category before submitting the product."
 private const val COMPANY_NOT_SELECTED_MESSAGE = "Please select a company before submitting the product."
 private const val PRODUCT_NAME_NOT_ENTERED_MESSAGE = "Please enter a product name before submitting the product."
 private const val PRODUCT_PRICE_NOT_ENTERED_MESSAGE = "Product price should be higher than zero!"
+var companyAdapter:ArrayAdapter<String?>? = null
+var categoryAdapter:ArrayAdapter<String?>? = null
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class InsertProductActivity : AppCompatActivity() {
@@ -46,6 +51,31 @@ class InsertProductActivity : AppCompatActivity() {
         submitProduct_button.setOnClickListener {
             submitProduct()
         }
+        handleIncomingIntent(intent)
+
+    }
+
+    private fun handleIncomingIntent(intent: Intent) {
+        if (intent.getStringExtra("from") == "productList") {
+            if (intent.getStringExtra("productKey") != null) {
+                setTitle(R.string.editProduct)
+                Utilities.getSingleProduct(intent.getStringExtra("productKey"), object : FireBaseListener {
+                    override fun onCallBack(value: Any) {
+                        val product = value as Product
+                        productName_autoCompleteTextView.setText(product.productName)
+                        productPrice_editText.setText(product.price.toString())
+                        if (companyAdapter != null) {
+                            company_spinner.setSelection(companyAdapter!!.getPosition(product.company))
+                        }
+                        if (categoryAdapter != null) {
+                            category_spinner.setSelection(categoryAdapter!!.getPosition(product.category))
+                        }
+
+                        productImage_imageView.setImageBitmap(imageTransform.StringToBitmap(product.productImage))
+                    }
+                })
+            }
+        }
     }
 
     private fun submitProduct() {
@@ -53,25 +83,32 @@ class InsertProductActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         progressBar.visibility = View.VISIBLE
-        when(submissionValid()) {
-            true -> {
-                //Insert Product into Firebase Database
-                val ref = FirebaseDatabase.getInstance().getReference("products")
-                val productId = ref.push().key
-                ref.child(productId).setValue(createProduct()).addOnCompleteListener{
+        if (intent.getStringExtra("from") == "productList") {
+            Utilities.updateProduct(createProduct())
+            progressBar.visibility = View.INVISIBLE
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            Toast.makeText(applicationContext,
+                    PRODUCT_UPDATED_MESSAGE, Toast.LENGTH_LONG).show()
+        }
+        else {
+            when(submissionValid()) {
+                true -> {
+                    //Insert Product into FireBase Database
+                    val ref = FirebaseDatabase.getInstance().getReference("products")
+                    val productId = ref.push().key
+                    ref.child(productId).setValue(createProduct()).addOnCompleteListener{
+                        progressBar.visibility = View.INVISIBLE
+                        window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        Toast.makeText(applicationContext,
+                                PRODUCT_SUBMITTED_MESSAGE, Toast.LENGTH_LONG).show()
+                    }
+                }
+                false -> {
                     progressBar.visibility = View.INVISIBLE
                     window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                    Toast.makeText(applicationContext,
-                            PRODUCT_SUBMITTED_MESSAGE, Toast.LENGTH_LONG).show()
                 }
             }
-            false -> {
-                progressBar.visibility = View.INVISIBLE
-                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            }
         }
-
-
     }
 
     //Reads the fields and creates the Product object
@@ -81,7 +118,14 @@ class InsertProductActivity : AppCompatActivity() {
         val company = company_spinner.selectedItem.toString()
         val productImage = imageTransform.DrawabletoString(productImage_imageView.drawable)
         val category = category_spinner.selectedItem.toString()
-        return Product(productName, price, company, productImage, category)
+        return if (intent.getStringExtra("productKey") != null) {
+            val productKey = intent.getStringExtra("productKey")
+            Product(productKey, productName, price, company, productImage, category)
+        }
+        else {
+            Product(productName, price, company, productImage, category)
+        }
+
     }
 
     //Intent result
@@ -141,7 +185,7 @@ class InsertProductActivity : AppCompatActivity() {
                         val name = cmpObject.child("companyName").getValue(String::class.java)
                         companyList.add(name)
                     }
-                    val companyAdapter = ArrayAdapter(this@InsertProductActivity,
+                    companyAdapter = ArrayAdapter(this@InsertProductActivity,
                             R.layout.spinner_list_item_without_padding, companyList)
                     company_spinner.adapter = companyAdapter
                 }
@@ -151,7 +195,7 @@ class InsertProductActivity : AppCompatActivity() {
 
     private fun fillCategories() {
         val categoryList = arrayOf("Please Select a Category", "Cleaning", "Drink", "Food", "Personal Care")
-        val categoryAdapter = ArrayAdapter(this@InsertProductActivity,
+        categoryAdapter = ArrayAdapter(this@InsertProductActivity,
                 R.layout.spinner_list_item_without_padding, categoryList)
         category_spinner.adapter = categoryAdapter
     }
