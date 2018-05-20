@@ -45,7 +45,6 @@
                 tools:layout_constraintTop_creator="1" />
 
         </LinearLayout>
-
         <GridView
             android:id="@+id/productGridView"
             android:layout_width="match_parent"

@@ -20,7 +20,7 @@ class Utilities {
             }
         }
 
-        private fun getDatabase() : FirebaseDatabase? {
+        fun getDatabase() : FirebaseDatabase? {
             return fireBaseDatabase
         }
 

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.TabLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +16,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GridAdapter extends ArrayAdapter<Product> {
     private final Context context;
     private final ArrayList<Product> products;
     private final TextView totalPriceText;
-    public GridAdapter(Context context, ArrayList<Product> products, TextView totalPriceText) {
+    public ArrayList<HashMap<Integer,Integer>> hashMaps= new ArrayList<>();
+    public int tabID;
+
+    public GridAdapter(Context context, ArrayList<Product> products, TextView totalPriceText, int tabID, int tabCount) {
         super(context, 0, products);
         this.context = context;
         this.products = products;
         this.totalPriceText= totalPriceText;
+        this.tabID = tabID;
+        for(int i=0; i<tabCount;i++)
+            hashMaps.add(new HashMap<Integer,Integer>() );
+        for(int i=0;i<products.size();i++)
+        {
+            hashMaps.get(tabID).put(i,0);
+        }
+
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
+    public View getView(final int position, View convertView, ViewGroup parent)
     {
         LayoutInflater inflater = LayoutInflater.from(context);
         View customView = inflater.inflate(R.layout.product_list_item, parent , false);
@@ -40,29 +53,35 @@ public class GridAdapter extends ArrayAdapter<Product> {
         Button increaseButton= customView.findViewById(R.id.increaseButton);
         Button decreaseButton =customView.findViewById(R.id.decreaseButton);
         final TextView numberText= customView.findViewById(R.id.numberText);
+        numberText.setText(hashMaps.get(tabID).get(position).toString());
+        if(hashMaps.get(tabID).get(position)>0)
+            numberText.setBackgroundColor(Color.rgb(0,255,0));
+
 
         increaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int number =Integer.parseInt((String) numberText.getText());
+                int number =hashMaps.get(tabID).get(position);
                 number++;
-                numberText.setText(String.valueOf(number));
+                hashMaps.get(tabID).put(position,number);
+                numberText.setText(hashMaps.get(tabID).get(position).toString());
                 String lastPrice = calculatePrice(totalPriceText.getText().toString(), singleProductItem.price, true).toString() + " €";
                 totalPriceText.setText(lastPrice);
-                if(number==1)
+                if(hashMaps.get(tabID).get(position)==1)
                     numberText.setBackgroundColor(Color.rgb(0,255,0));
             }
         });
         decreaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int number =Integer.parseInt((String) numberText.getText());
+                int number =hashMaps.get(tabID).get(position);
                 if(number!=0) {
                     number--;
+                    hashMaps.get(tabID).put(position,number);
                     String lastPrice = calculatePrice(totalPriceText.getText().toString(), singleProductItem.price, false).toString() + " €";
                     totalPriceText.setText(lastPrice);
-                    numberText.setText(String.valueOf(number));
-                    if(number==0)
+                    numberText.setText(hashMaps.get(tabID).get(position).toString());
+                    if(hashMaps.get(tabID).get(position)==0)
                         numberText.setBackgroundColor(Color.parseColor("#F0F0F0"));
                 }
             }
