@@ -41,6 +41,7 @@ public class Product implements Serializable {
         this.company = company;
         this.productImage = productImage;
         this.category = category;
+        this.productKey= null;
     }
 
     //Alternative constructor with the "productKey" parameter

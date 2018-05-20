@@ -19,8 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -29,7 +31,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.concurrent.TimeUnit;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -49,7 +55,8 @@ public class ProductActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     public String companyName;
     public Double TotalPrice;
-    public ArrayList<Product> productList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,28 +102,6 @@ public class ProductActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(ICONS[2]);
         tabLayout.getTabAt(3).setIcon(ICONS[3]);
         tabLayout.getTabAt(4).setIcon(ICONS[4]);
-
-        productList= new ArrayList<>();
-        final DatabaseReference FBdatabase = FirebaseDatabase.getInstance().getReference("products");
-        FBdatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot productObject : dataSnapshot.getChildren()) {
-                    if (companyName.equals(productObject.child("company").getValue())) {
-                        String p_name = (String) productObject.child("productName").getValue();
-                        String p_image = (String) productObject.child("productImage").getValue();
-                        Double p_price = (Double) productObject.child("price").getValue();
-                        String p_category = (String) productObject.child("category").getValue();
-                        Product product = new Product(p_name, p_price, companyName, p_image, p_category);
-                        productList.add(product);
-                    }
-                }
-                //FBdatabase.removeEventListener(this);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
     }
 
 
@@ -152,7 +137,7 @@ public class ProductActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
         private static final String ARG_COMPANY_NAME = "company_name";
-        private static final String ARG_PRODUCT_LIST = "product_list";
+        public ArrayList<Product> allProducts;
 
         public PlaceholderFragment() {
         }
@@ -161,29 +146,29 @@ public class ProductActivity extends AppCompatActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber, String companyName, ArrayList<Product> productList) {
+        public static PlaceholderFragment newInstance(int sectionNumber, String companyName) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             args.putString(ARG_COMPANY_NAME, companyName);
-            args.putSerializable(ARG_PRODUCT_LIST,productList);
             fragment.setArguments(args);
             return fragment;
         }
         public String getCategoryName(int tabID){
-            String[] names = {"Food", "Grocery", "Drink", "PersonalCare", "Cleaning"};
+            String[] names = {"Food", "Grocery", "Drink", "Personal Care", "Cleaning"};
             return names[tabID];
         }
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
             final View rootView = inflater.inflate(R.layout.fragment_product, container, false);
             TextView textView = rootView.findViewById(R.id.section_label);
             ImageView imageView= rootView.findViewById(R.id.section_image);
 
             final String companyName = getArguments().getString(ARG_COMPANY_NAME);
             final int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER)-1;
-            final ArrayList<Product> productList =(ArrayList<Product>) getArguments().getSerializable(ARG_PRODUCT_LIST);
+            final ArrayList<Product> productList = new ArrayList<>();
             int [] Labels= new int[]{
                     R.string.tab_text_1,
                     R.string.tab_text_2,
@@ -200,34 +185,54 @@ public class ProductActivity extends AppCompatActivity {
                     R.drawable.cleaning};
             imageView.setImageResource(ICONS[sectionNumber]);
 
-
-            
             final GridView gridView=  rootView.findViewById(R.id.productGridView);
             final TextView priceText= getActivity().findViewById(R.id.priceText);
-
-
-
-           ArrayList <Product> categorizedList= new ArrayList<>();
-           if(productList!=null)
-               for (Product productObject:productList) {
-                    if(productObject.category.equals(getCategoryName(sectionNumber))) {
-                        categorizedList.add(productObject);
-                        categorizedList.add(productObject);
-                        categorizedList.add(productObject);
-                        categorizedList.add(productObject);
-                        categorizedList.add(productObject);
-                        categorizedList.add(productObject);
-                        categorizedList.add(productObject);
-
+            final DatabaseReference query=  FirebaseDatabase.getInstance().getReference("products");
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot productObject : dataSnapshot.getChildren()) {
+                        if (companyName.equals(productObject.child("company").getValue()))
+                            if(productObject.child("category").getValue().equals(getCategoryName(sectionNumber))){
+                                String p_name = productObject.child("productName").getValue().toString();
+                                String p_image = productObject.child("productImage").getValue().toString();
+                                Double p_price = (Double) productObject.child("price").getValue();
+                                String p_category = productObject.child("category").getValue().toString();
+                                Product product = new Product(p_name, p_price, companyName, p_image, p_category);
+                                productList.add(product);
+                            }
                     }
+                    GridAdapter gridAdapter = new GridAdapter(getActivity().getApplicationContext(), productList, priceText, sectionNumber,5);
+                    gridView.setAdapter(gridAdapter);
+                    query.removeEventListener(this);
                 }
-           GridAdapter gridAdapter = new GridAdapter(getActivity().getApplicationContext(),categorizedList,priceText );
-           
-           gridView.setScrollingCacheEnabled(false);
-           gridView.setAnimationCacheEnabled(false);
-           gridView.setAdapter(gridAdapter);
 
-            return rootView;
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+            /*Utilities.Companion.getProducts(new FireBaseListener() {
+                @Override
+                public void onCallBack(@NotNull Object value) {
+                    allProducts = (ArrayList<Product>) value;
+                    for (Product productObject : allProducts) {
+                        if (companyName.equals(productObject.company))
+                            if(productObject.category.equals(getCategoryName(sectionNumber))){
+                            String p_name = productObject.productName;
+                            String p_image = productObject.productImage;
+                            Double p_price = productObject.price;
+                            String p_category = productObject.category;
+                            Product product = new Product(p_name, p_price, companyName, p_image, p_category);
+                            productList.add(product);
+                        }
+                    }
+                    Utilities.Companion.getDatabase().getReference().removeEventListener();
+                    GridAdapter gridAdapter = new GridAdapter(getActivity().getApplicationContext(), productList, priceText, sectionNumber,5);
+                    gridView.setAdapter(gridAdapter);
+                }
+            });*/
+           return rootView;
         }
     }
 
@@ -245,7 +250,7 @@ public class ProductActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1, companyName, productList);
+            return PlaceholderFragment.newInstance(position + 1, companyName);
         }
 
         @Override
