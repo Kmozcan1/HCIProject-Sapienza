@@ -14,4 +14,7 @@
     <string name="categorySpinnerHint">Please Select a Category</string>
     <string name="title_productListActivity">Edit Product</string>
     <string name="search_title">Search</string>
+    <string name="button_edit">Edit</string>
+    <string name="productCompany">Company</string>
+    <string name="productDetails">Details</string>
 </resources>

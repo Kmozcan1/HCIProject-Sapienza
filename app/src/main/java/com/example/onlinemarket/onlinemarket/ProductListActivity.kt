@@ -10,20 +10,19 @@ import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_product_list.*
 import android.app.SearchManager
 import android.content.Context
+import android.content.DialogInterface
 import android.view.Menu
+import android.widget.AdapterView
 import android.widget.SearchView
 
 private var productListItemList = mutableListOf<ProductListItemData>()
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-class ProductListActivity : AppCompatActivity() {
+class ProductListActivity : AppCompatActivity(), DialogFragmentListener {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_list)
-
-
-
         //Make the screen non-interactive & progressBar visible
         window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
@@ -42,6 +41,25 @@ class ProductListActivity : AppCompatActivity() {
                 fillProductSearchList(companyMap)
             }
         })
+        product_listView.onItemClickListener = AdapterView.OnItemClickListener {
+            parent, view, position, id ->
+
+            val newFragment = ProductDetailsDialogFragment()
+
+            //Make the activity untouchable to prevent user from selecting another list item
+            //Because android has a bug that makes listview button process on delay amk.
+            window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            val manager = this@ProductListActivity.fragmentManager
+            val ft = manager.beginTransaction()
+            val prev = manager.findFragmentByTag("details")
+            if (prev != null) {
+                ft.remove(prev)
+            }
+
+            newFragment.newInstance(product_listView.getItemAtPosition(position) as ProductListItemData)
+            newFragment.show(ft, "details")
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -68,8 +86,10 @@ class ProductListActivity : AppCompatActivity() {
                 productListItemList.clear()
                 val products = value as ArrayList<Product?>
                 for (product in products) {
-                    val productListItem = ProductListItemData(product!!.productName,
-                            product!!.productImage, product.company, companyMap[product!!.company])
+                    val productListItem =
+                            ProductListItemData(product!!.productKey, product!!.productName,
+                            product!!.productImage, product!!.price,
+                                    product!!.company, companyMap[product!!.company])
                     productListItemList.add(productListItem)
                 }
                 val productSearchListViewAdapter = ProductSearchListViewAdapter(baseContext,
@@ -78,7 +98,7 @@ class ProductListActivity : AppCompatActivity() {
 
                 //Turn progressBar visible and screen touchable
                 progressBar.visibility = View.INVISIBLE
-                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
         })
     }
@@ -102,6 +122,17 @@ class ProductListActivity : AppCompatActivity() {
                     val productSearchListViewAdapter = ProductSearchListViewAdapter(baseContext,
                             R.layout.productsearch_list_item, productListItemList)
                     product_listView.adapter = productSearchListViewAdapter
+
+                   /* product_listView.onItemClickListener = object : AdapterView.OnItemClickListener {
+                        override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                            val newFragment = ProductDetailsDialogFragment()
+                            val fm = this@ProductListActivity.fragmentManager
+                            newFragment.show(fm, "missiles")
+                        }
+                    }*/
+
+
+
                 }
                 return false
             }
@@ -129,6 +160,11 @@ class ProductListActivity : AppCompatActivity() {
                     R.layout.productsearch_list_item, filteredList)
             product_listView.adapter = productSearchListViewAdapter
         }
+    }
+
+    //upon closing the fragment, make the activity touchable again
+    override fun handleDialogClose(dialog: DialogInterface) {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 
 
