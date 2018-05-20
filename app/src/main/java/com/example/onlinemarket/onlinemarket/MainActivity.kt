@@ -1,6 +1,7 @@
 package com.example.onlinemarket.onlinemarket
 
 import android.annotation.TargetApi
+import android.content.ClipData
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -13,18 +14,13 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.onlinemarket.onlinemarket.R.id.drawer_layout
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import com.google.android.gms.internal.tv
-import android.widget.AdapterView
-
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -47,8 +43,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-        val emailText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.e_mail_label)
-        emailText.text= intent.getSerializableExtra("userEmail").toString()
+        val navEmailText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.e_mail_label)
+        val navNameText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.name_label)
+        val navAdminButton= nav_view.menu.getItem(0)
+        navEmailText.text= intent.getSerializableExtra("userEmail").toString()
+        if(navEmailText.text == "admin@admin")
+            navAdminButton.setVisible(true)
+        navNameText.text= intent.getSerializableExtra("userName").toString()+ " " + intent.getSerializableExtra("userLastName").toString()
 
         val companyList = ArrayList<Company>()
         val companyListView = findViewById<ListView>(R.id.company_list_view)
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         val image= cmpObject.child("image").getValue(String::class.java)
                         val openTime= cmpObject.child("openTime").getValue(String::class.java)
                         val closeTime=cmpObject.child("closeTime").getValue(String::class.java)
-                        val cmp :Company= Company(name ,image ,openTime ,closeTime)
+                        val cmp = Company(name ,image ,openTime ,closeTime)
                         companyList.add(cmp)
                         val companyAdapter = CompanyListViewAdapter(baseContext, companyList)
                         companyListView.adapter = companyAdapter
@@ -81,9 +82,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 // Get the selected item text from ListView
                 val selectedItem = parent.getItemAtPosition(position) as Company
+                productIntent.putExtra("companyName",selectedItem.companyName)
                 startActivity(productIntent)
             }
-        };
+        }
 
     }
 
@@ -113,15 +115,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
+        val adminActivity = Intent(this,AdminActivity::class.java)
         when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
 
-            }
-            R.id.nav_slideshow -> {
-
+            R.id.nav_Admin -> {
+                startActivity(adminActivity)
             }
             R.id.nav_manage -> {
 

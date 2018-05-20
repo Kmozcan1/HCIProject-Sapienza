@@ -17,32 +17,39 @@ public class imageTransform {
 
     public imageTransform() {
     }
-    public static Bitmap DrawableToBitmap(Drawable drawable){
+    private static Bitmap DrawableToBitmap(Drawable drawable){
         return ((BitmapDrawable)drawable).getBitmap();
     }
-    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+    private static byte[] getBitmapAsByteArray(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
         return outputStream.toByteArray();
     }
-    public static byte[] DrawabletoByteArray(Drawable drawable){
+    private static byte[] DrawabletoByteArray(Drawable drawable){
         return getBitmapAsByteArray(DrawableToBitmap(drawable));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static String byteToString(byte[] imageByte){
+    private static String byteToString(byte[] imageByte){
         String image= Base64.getEncoder().encodeToString(imageByte);
         return image;
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static byte[] StringToByte(String imageString){
+    private static byte[] StringToByte(String imageString){
         byte[] image= Base64.getDecoder().decode(imageString);
         return image;
     }
-    public static Bitmap getImage(byte[] data){
+    private static Bitmap getImage(byte[] data){
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-        return bitmap;
+        int width=bitmap.getWidth();
+        int height= bitmap.getHeight();
+        double coefficient= height/ 112;
+        width= (int) (width/coefficient);
+        height= (int) (height/coefficient);
+
+        Bitmap resized = Bitmap.createScaledBitmap(bitmap, width, height, true);
+        return resized;
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String DrawabletoString(Drawable drawable){
