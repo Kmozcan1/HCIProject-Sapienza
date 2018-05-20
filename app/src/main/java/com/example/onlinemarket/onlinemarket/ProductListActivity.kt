@@ -14,8 +14,14 @@ import android.content.DialogInterface
 import android.view.Menu
 import android.widget.AdapterView
 import android.widget.SearchView
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 
 private var productListItemList = mutableListOf<ProductListItemData>()
+private var companiesListener: ValueEventListener? = null
+private var productsListener: ValueEventListener? = null
+private var companiesQuery: DatabaseReference? = null
+private var productsQuery: DatabaseReference? = null
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class ProductListActivity : AppCompatActivity(), DialogFragmentListener {
@@ -33,8 +39,10 @@ class ProductListActivity : AppCompatActivity(), DialogFragmentListener {
         //Then calls fillProductSearchList
         val companyMap = mutableMapOf<String, String>()
         Utilities.getCompanies(object: FireBaseListener {
-            override fun onCallBack(value: Any) {
+            override fun onCallBack(value: Any, listener: ValueEventListener, query: DatabaseReference) {
                 val companies = value as ArrayList<Company?>
+                companiesListener = listener
+                companiesQuery = query
                 for (company in companies) {
                     companyMap[company!!.companyName] = company!!.image
                 }
@@ -82,8 +90,10 @@ class ProductListActivity : AppCompatActivity(), DialogFragmentListener {
     //and fills the listView
     private fun fillProductSearchList(companyMap: MutableMap<String, String>) {
         Utilities.getProducts(object: FireBaseListener {
-            override fun onCallBack(value: Any) {
+            override fun onCallBack(value: Any, listener: ValueEventListener, query: DatabaseReference) {
                 productListItemList.clear()
+                productsListener = listener
+                productsQuery = query
                 val products = value as ArrayList<Product?>
                 for (product in products) {
                     val productListItem =
@@ -167,5 +177,9 @@ class ProductListActivity : AppCompatActivity(), DialogFragmentListener {
         window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        productsQuery!!.removeEventListener(productsListener)
+        companiesQuery!!.removeEventListener(companiesListener)
+    }
 }
