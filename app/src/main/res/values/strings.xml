@@ -56,5 +56,13 @@
     <string name="tab_text_5">Cleaning Products</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="productsTitle">Product Categories</string>
+    <string name="priceTitle">Total Price:</string>
+    <string name="selectedItemTitle">Selected Items:</string>
+    <string name="admin_page_label">Admin Page</string>
+    <string name="account_settings_label">Account Settings</string>
+    <string name="communicate_label">Communicate</string>
+    <string name="sharelabel">Share</string>
+    <string name="log_out_label">Log Out</string>
+    <string name="zeroEuroLabel">0 €</string>
 
 </resources>
