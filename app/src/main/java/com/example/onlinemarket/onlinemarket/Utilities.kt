@@ -45,7 +45,7 @@ class Utilities {
                             val product = Product(productKey, productName, price, company, productImage, category)
                             productList.add(product)
                         }
-                        listener.onCallBack(productList)
+                        listener.onCallBack(productList, this, query)
                     }
                 }
             })
@@ -66,7 +66,7 @@ class Utilities {
                         val productImage = product.child("productImage").getValue(String::class.java)
                         val category = product.child("category").getValue(String::class.java)
                         val product = Product(key, productName, price, company, productImage, category)
-                        listener.onCallBack(product)
+                        listener.onCallBack(product, this, query)
                     }
                 }
             })
@@ -102,7 +102,7 @@ class Utilities {
                             val company = Company(name, image, openTime, closeTime)
                             companyList.add(company)
                         }
-                        listener.onCallBack(companyList)
+                        listener.onCallBack(companyList, this, query)
                     }
                 }
             })

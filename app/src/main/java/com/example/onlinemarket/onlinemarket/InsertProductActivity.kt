@@ -60,7 +60,7 @@ class InsertProductActivity : AppCompatActivity() {
             if (intent.getStringExtra("productKey") != null) {
                 setTitle(R.string.editProduct)
                 Utilities.getSingleProduct(intent.getStringExtra("productKey"), object : FireBaseListener {
-                    override fun onCallBack(value: Any) {
+                    override fun onCallBack(value: Any, listener: ValueEventListener, query: DatabaseReference) {
                         val product = value as Product
                         productName_autoCompleteTextView.setText(product.productName)
                         productPrice_editText.setText(product.price.toString())

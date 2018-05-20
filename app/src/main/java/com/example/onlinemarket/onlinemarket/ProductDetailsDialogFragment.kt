@@ -41,7 +41,7 @@ class ProductDetailsDialogFragment: DialogFragment(), DialogFragmentListener {
                         val intent = Intent(activity, InsertProductActivity::class.java)
                         intent.putExtra("from", "productList")
                         intent.putExtra("productKey", productListItemData!!.productKey)
-                        startActivity(intent)
+                        startActivityForResult(intent, 0)
                     }
                 })
 
@@ -61,5 +61,11 @@ class ProductDetailsDialogFragment: DialogFragment(), DialogFragmentListener {
         val activity = activity
         if (activity is ProductListActivity)
             (activity as DialogFragmentListener).handleDialogClose(dialog)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 0) {
+            this.dismiss()
+        }
     }
 }
