@@ -16,6 +16,7 @@ import android.widget.AdapterView
 import android.widget.SearchView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_insert_product.*
 
 private var productListItemList = mutableListOf<ProductListItemData>()
 private var companiesListener: ValueEventListener? = null
@@ -30,9 +31,7 @@ class ProductListActivity : AppCompatActivity(), DialogFragmentListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_list)
         //Make the screen non-interactive & progressBar visible
-        window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        progressBar.visibility = View.VISIBLE
+        Utilities.handleProgressBarAction(productList_progressBar, window, true)
 
         //Fetches and maps the company images to their names
         //Used in pairing the product with its companyImage in ProductListItemData
@@ -107,8 +106,7 @@ class ProductListActivity : AppCompatActivity(), DialogFragmentListener {
                 product_listView.adapter = productSearchListViewAdapter
 
                 //Turn progressBar visible and screen touchable
-                progressBar.visibility = View.INVISIBLE
-                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                Utilities.handleProgressBarAction(productList_progressBar, window, false)
             }
         })
     }

@@ -8,6 +8,7 @@ import java.sql.Time;
 
 public class Company {
 
+    private String companyKey;
     private String companyName;
     private String image;
     private String openTime;
@@ -26,6 +27,13 @@ public class Company {
         image=newImage;
         this.openTime= openTime;
         this.closeTime= closeTime;
+    }
+    public Company(String key, String name, String newImage, String openTime, String closeTime){
+        this.companyKey = key;
+        this.companyName = name;
+        this.image = newImage;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
     }
     public Company(){}
 
