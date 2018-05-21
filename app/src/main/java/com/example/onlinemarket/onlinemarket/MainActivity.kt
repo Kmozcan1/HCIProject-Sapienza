@@ -21,6 +21,8 @@ import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import com.google.android.gms.internal.tv
+import kotlinx.android.synthetic.main.activity_company_list.*
+import kotlinx.android.synthetic.main.content_main.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Utilities.handleProgressBarAction(contentMain_progressBar, window, true)
         setSupportActionBar(toolbar)
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -56,6 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         FBdatabase= FirebaseDatabase.getInstance().getReference("companies")
+
         FBdatabase!!.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(p0: DatabaseError?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -75,6 +79,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                     }
                 }
+                Utilities.handleProgressBarAction(contentMain_progressBar, window, false)
             }
         })
         val productIntent = Intent(this,ProductActivity::class.java)
@@ -86,7 +91,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(productIntent)
             }
         }
-
     }
 
     override fun onBackPressed() {

@@ -37,6 +37,8 @@ public class Company {
     }
     public Company(){}
 
+    public String getCompanyKey() {return companyKey; }
+
     public String getCompanyName() {
         return companyName;
     }

@@ -80,6 +80,27 @@ class Utilities {
             })
         }
 
+        fun getSingleCompany(key: String, listener: FireBaseListener) {
+            val reference = getDatabase()!!.reference
+            var query = reference.child("companies").child(key)
+            query!!.addValueEventListener(object: ValueEventListener{
+                override fun onCancelled(p0: DatabaseError?) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+                override fun onDataChange(company: DataSnapshot?) {
+                    if(company!!.exists()) {
+                        val key = company.key
+                        val name = company.child("companyName").getValue(String::class.java)
+                        val image = company.child("image").getValue(String::class.java)
+                        val openTime = company.child("openTime").getValue(String::class.java)
+                        val closeTime = company.child("closeTime").getValue(String::class.java)
+                        val company = Company(key, name, image, openTime, closeTime)
+                        listener.onCallBack(company, this, query)
+                    }
+                }
+            })
+        }
+
         fun updateProduct(product: Product) {
             val reference = getDatabase()!!.reference
             var query = reference.child("products").child(product.productKey)
@@ -88,6 +109,15 @@ class Utilities {
             query.child("company").setValue(product.company)
             query.child("productImage").setValue(product.productImage)
             query.child("category").setValue(product.category)
+        }
+
+        fun updateCompany(company: Company) {
+            val reference = getDatabase()!!.reference
+            var query = reference.child("companies").child(company.companyKey)
+            query.child("companyName").setValue(company.companyName)
+            query.child("image").setValue(company.image)
+            query.child("openTime").setValue(company.openTime)
+            query.child("closeTime").setValue(company.closeTime)
         }
 
         fun getCompanies(listener: FireBaseListener) {
@@ -103,11 +133,12 @@ class Utilities {
                     if(p0!!.exists()) {
                         companyList.clear()
                         for (companyObj in p0.children) {
+                            val key = companyObj.key
                             val name = companyObj.child("companyName").getValue(String::class.java)
                             val image = companyObj.child("image").getValue(String::class.java)
                             val openTime = companyObj.child("openTime").getValue(String::class.java)
                             val closeTime = companyObj.child("closeTime").getValue(String::class.java)
-                            val company = Company(name, image, openTime, closeTime)
+                            val company = Company(key, name, image, openTime, closeTime)
                             companyList.add(company)
                         }
                         listener.onCallBack(companyList, this, query)

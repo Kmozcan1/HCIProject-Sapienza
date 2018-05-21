@@ -21,4 +21,5 @@
     <string name="companyOpeningTime">Opening Time:</string>
     <string name="companyClosingTime">Closing Time:</string>
     <string name="submitCompany">Submit Company</string>
+    <string name="editCompany">Edit Company</string>
 </resources>
