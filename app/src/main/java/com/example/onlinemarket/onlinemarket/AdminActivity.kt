@@ -18,6 +18,10 @@ class AdminActivity : AppCompatActivity() {
             intent = Intent(this, ProductListActivity::class.java)
             startActivity(intent)
         }
+        insert_company_button.setOnClickListener {
+            intent = Intent(this, InsertCompanyActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

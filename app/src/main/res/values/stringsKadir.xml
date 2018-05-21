@@ -17,4 +17,8 @@
     <string name="button_edit">Edit</string>
     <string name="productCompany">Company</string>
     <string name="productDetails">Details</string>
+    <string name="companyName">Company Name</string>
+    <string name="companyOpeningTime">Opening Time:</string>
+    <string name="companyClosingTime">Closing Time:</string>
+    <string name="submitCompany">Submit Company</string>
 </resources>

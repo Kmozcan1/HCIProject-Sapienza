@@ -1,9 +1,17 @@
 package com.example.onlinemarket.onlinemarket
 
-import android.content.Context
-import android.util.Log
-import com.example.onlinemarket.onlinemarket.R.id.snap
-import com.example.onlinemarket.onlinemarket.R.string.productName
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Bundle
+import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.ActivityCompat.startActivityForResult
+import android.support.v4.content.ContextCompat
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.widget.ProgressBar
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
@@ -20,7 +28,7 @@ class Utilities {
             }
         }
 
-        fun getDatabase() : FirebaseDatabase? {
+        private fun getDatabase() : FirebaseDatabase? {
             return fireBaseDatabase
         }
 
@@ -106,6 +114,45 @@ class Utilities {
                     }
                 }
             })
+        }
+
+        fun insertCompany(company: Company) {
+            val reference = getDatabase()!!.reference
+            val companyID = reference.push().key
+            reference.child("companies").child(companyID).setValue(company)
+        }
+
+        fun handleProgressBarAction(progressBar: ProgressBar, window: Window, visible: Boolean) {
+            when {
+                visible -> {
+                    window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    progressBar.visibility = View.VISIBLE
+                }
+                else -> {
+                    progressBar.visibility = View.INVISIBLE
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                }
+            }
+        }
+
+        fun hasPermission(context: Activity, permission: String, requestCode: Int): Boolean {
+            return if (ContextCompat.checkSelfPermission(context, permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(context, arrayOf(permission), requestCode)
+                false
+            } else {
+                true
+            }
+        }
+
+        fun openGallery(activity: Activity, packageManager: PackageManager,
+                        requestCode: Int, bundleOptions: Bundle?) {
+            val intent = Intent(Intent.ACTION_PICK,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivityForResult(activity, intent, requestCode, bundleOptions)
+            }
         }
     }
 }
