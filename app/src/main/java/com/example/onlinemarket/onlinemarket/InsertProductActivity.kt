@@ -19,6 +19,7 @@ import android.support.v4.content.ContextCompat
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
+import com.example.onlinemarket.onlinemarket.Utilities.Companion.openGallery
 
 private const val PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 0
 private const val BROWSE_GALLERY_FOR_PRODUCT_IMAGE = 0
@@ -83,10 +84,17 @@ class InsertProductActivity : AppCompatActivity() {
         //Make the screen non-interactive & progressBar visible
         Utilities.handleProgressBarAction(insertProduct_progressBar, window, true)
         if (intent.getStringExtra("from") == "productList") {
-            Utilities.updateProduct(createProduct())
-            Utilities.handleProgressBarAction(insertProduct_progressBar, window, false)
-            Toast.makeText(applicationContext,
-                    PRODUCT_UPDATED_MESSAGE, Toast.LENGTH_LONG).show()
+            when(submissionValid()) {
+                true -> {
+                    Utilities.updateProduct(createProduct())
+                    Utilities.handleProgressBarAction(insertProduct_progressBar, window, false)
+                    Toast.makeText(applicationContext,
+                            PRODUCT_UPDATED_MESSAGE, Toast.LENGTH_LONG).show()
+                }
+                false -> {
+                    Utilities.handleProgressBarAction(insertProduct_progressBar, window, false)
+                }
+            }
         }
         else {
             when(submissionValid()) {

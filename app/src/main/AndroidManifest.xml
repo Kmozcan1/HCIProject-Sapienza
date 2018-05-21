@@ -66,9 +66,12 @@
             android:name=".InsertCompanyActivity"
             android:label="@string/insertCompany"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CompanyListActivity"
+            android:label="@string/editCompany"
+            android:theme="@style/AppTheme" />
         <meta-data android:name="android.app.default_searchable"
             android:value=".MySearchableActivity" />
-
     </application>
 
 </manifest>
