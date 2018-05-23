@@ -1,6 +1,9 @@
 package com.example.onlinemarket.onlinemarket;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -54,15 +57,32 @@ public class ProductActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     public String companyName;
+    public User user;
+    public Order order;
     public Double TotalPrice;
 
-
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.alert_goback)
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ProductActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
         companyName = getIntent().getSerializableExtra("companyName").toString();
+        user = (User) getIntent().getSerializableExtra("user");
+        order= (Order) getIntent().getSerializableExtra("order");
+
         TotalPrice= 0.0;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -82,11 +102,25 @@ public class ProductActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         FloatingActionButton fab = findViewById(R.id.fab);
+        final Intent orderPage = new Intent(this, OrderActivity.class);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if(!order.getProducts().isEmpty()) {
+                    orderPage.putExtra("user", user);
+                    order.setTime();
+                    orderPage.putExtra("order", order);
+                    startActivity(orderPage);
+                }
+                else
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(ProductActivity.this);
+                    alert.setTitle("Alert");
+                    alert.setMessage(R.string.alert_chooseProduct);
+                    alert.setPositiveButton("OK",null);
+                    alert.show();
+                }
+
             }
         });
         final int[] ICONS = new int[]{
@@ -137,6 +171,7 @@ public class ProductActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
         private static final String ARG_COMPANY_NAME = "company_name";
+        private static final String ARG_ORDER = "order";
         public ArrayList<Product> allProducts;
 
         public PlaceholderFragment() {
@@ -146,11 +181,12 @@ public class ProductActivity extends AppCompatActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber, String companyName) {
+        public static PlaceholderFragment newInstance(int sectionNumber, String companyName, Order order) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             args.putString(ARG_COMPANY_NAME, companyName);
+            args.putSerializable(ARG_ORDER, order);
             fragment.setArguments(args);
             return fragment;
         }
@@ -168,6 +204,7 @@ public class ProductActivity extends AppCompatActivity {
 
             final String companyName = getArguments().getString(ARG_COMPANY_NAME);
             final int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER)-1;
+            final Order order= (Order) getArguments().getSerializable(ARG_ORDER);
             final ArrayList<Product> productList = new ArrayList<>();
             int [] Labels= new int[]{
                     R.string.tab_text_1,
@@ -202,7 +239,7 @@ public class ProductActivity extends AppCompatActivity {
                                 productList.add(product);
                             }
                     }
-                    GridAdapter gridAdapter = new GridAdapter(getActivity().getApplicationContext(), productList, priceText, sectionNumber,5);
+                    GridAdapter gridAdapter = new GridAdapter(getActivity().getApplicationContext(), productList, priceText, sectionNumber,5,order);
                     gridView.setAdapter(gridAdapter);
                     query.removeEventListener(this);
                 }
@@ -250,7 +287,7 @@ public class ProductActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1, companyName);
+            return PlaceholderFragment.newInstance(position + 1, companyName,order);
         }
 
         @Override

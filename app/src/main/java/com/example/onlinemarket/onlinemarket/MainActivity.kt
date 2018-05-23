@@ -26,16 +26,15 @@ import com.google.android.gms.internal.tv
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     var FBdatabase : DatabaseReference?= null
+
     @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
+        val order :Order
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -45,14 +44,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
         val navEmailText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.e_mail_label)
         val navNameText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.name_label)
+        val navAddressText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.address_label)
+        val navCityText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.city_label)
         val navAdminButton= nav_view.menu.getItem(0)
-        navEmailText.text= intent.getSerializableExtra("userEmail").toString()
+        val user:User= intent.getSerializableExtra("User") as User
+        navEmailText.text=  user.email
+        navAddressText.text= user.address
+        navCityText.text=user.city
         if(navEmailText.text == "admin@admin")
             navAdminButton.setVisible(true)
-        navNameText.text= intent.getSerializableExtra("userName").toString()+ " " + intent.getSerializableExtra("userLastName").toString()
+        navNameText.text= user.firstName + " " + user.lastname
 
         val companyList = ArrayList<Company>()
         val companyListView = findViewById<ListView>(R.id.company_list_view)
+
+        order= Order(user.email,user.address,user.zone,"")
 
 
         FBdatabase= FirebaseDatabase.getInstance().getReference("companies")
@@ -83,6 +89,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 // Get the selected item text from ListView
                 val selectedItem = parent.getItemAtPosition(position) as Company
                 productIntent.putExtra("companyName",selectedItem.companyName)
+                productIntent.putExtra("user",user)
+                productIntent.putExtra("order", order)
                 startActivity(productIntent)
             }
         }
