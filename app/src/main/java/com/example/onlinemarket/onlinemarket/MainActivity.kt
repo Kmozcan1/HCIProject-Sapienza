@@ -74,16 +74,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 companyList.clear()
                 if(p0!!.exists()) {
                     for (cmpObject in p0.children) {
-                        val name= cmpObject.child("companyName").getValue(String::class.java)
-                        val image= cmpObject.child("image").getValue(String::class.java)
-                        val openTime= cmpObject.child("openTime").getValue(String::class.java)
-                        val closeTime=cmpObject.child("closeTime").getValue(String::class.java)
-                        val cmp = Company(name ,image ,openTime ,closeTime)
+                        val name = cmpObject.child("companyName").getValue(String::class.java)
+                        val image = cmpObject.child("image").getValue(String::class.java)
+                        val openTime = cmpObject.child("openTime").getValue(String::class.java)
+                        val closeTime = cmpObject.child("closeTime").getValue(String::class.java)
+                        val cmp = Company(name, image, openTime, closeTime)
                         companyList.add(cmp)
-                        val companyAdapter = CompanyListViewAdapter(baseContext, companyList)
-                        companyListView.adapter = companyAdapter
-
                     }
+
+                    val companyAdapter = CompanyListViewAdapter(baseContext, companyList)
+                    companyListView.adapter = companyAdapter
+                    FBdatabase!!.removeEventListener(this)
                 }
                 Utilities.handleProgressBarAction(contentMain_progressBar, window, false)
             }
