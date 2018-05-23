@@ -131,16 +131,18 @@ public class ProductActivity extends AppCompatActivity {
         final int[] ICONS = new int[]{
                 R.drawable.food,
                 R.drawable.grocery,
+                R.drawable.meat,
+                R.drawable.frozen,
+                R.drawable.dairy,
                 R.drawable.drink,
+                R.drawable.alcohol,
                 R.drawable.personalcare,
                 R.drawable.cleaning};
 
-        //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tabLayout.getTabAt(0).setIcon(ICONS[0]);
-        tabLayout.getTabAt(1).setIcon(ICONS[1]);
-        tabLayout.getTabAt(2).setIcon(ICONS[2]);
-        tabLayout.getTabAt(3).setIcon(ICONS[3]);
-        tabLayout.getTabAt(4).setIcon(ICONS[4]);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        for(int i=0; i<9; i++)
+            tabLayout.getTabAt(i).setIcon(ICONS[i]);
+
     }
 
 
@@ -196,7 +198,7 @@ public class ProductActivity extends AppCompatActivity {
             return fragment;
         }
         public String getCategoryName(int tabID){
-            String[] names = {"Food", "Grocery", "Drink", "Personal Care", "Cleaning"};
+            String[] names = {"Food", "Grocery","Meat", "Frozen", "Dairy ", "Drink", "Alcohol", "Personal Care", "Cleaning"};
             return names[tabID];
         }
         @Override
@@ -216,13 +218,21 @@ public class ProductActivity extends AppCompatActivity {
                     R.string.tab_text_2,
                     R.string.tab_text_3,
                     R.string.tab_text_4,
-                    R.string.tab_text_5
+                    R.string.tab_text_5,
+                    R.string.tab_text_6,
+                    R.string.tab_text_7,
+                    R.string.tab_text_8,
+                    R.string.tab_text_9
             };
             textView.setText(getString(Labels[sectionNumber]));
             final int[] ICONS = new int[]{
                     R.drawable.food,
                     R.drawable.grocery,
+                    R.drawable.meat,
+                    R.drawable.frozen,
+                    R.drawable.dairy,
                     R.drawable.drink,
+                    R.drawable.alcohol,
                     R.drawable.personalcare,
                     R.drawable.cleaning};
             imageView.setImageResource(ICONS[sectionNumber]);
@@ -244,7 +254,7 @@ public class ProductActivity extends AppCompatActivity {
                                 productList.add(product);
                             }
                     }
-                    GridAdapter gridAdapter = new GridAdapter(getActivity().getApplicationContext(), productList, priceText, sectionNumber,5,order);
+                    GridAdapter gridAdapter = new GridAdapter(getActivity().getApplicationContext(), productList, priceText, sectionNumber,9,order);
                     gridView.setAdapter(gridAdapter);
                     query.removeEventListener(this);
                 }
@@ -297,8 +307,8 @@ public class ProductActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 5 total pages.
-            return 5;
+            // Show 9 total pages.
+            return 9;
         }
     }
 }
