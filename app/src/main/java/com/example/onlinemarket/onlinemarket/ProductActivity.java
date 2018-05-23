@@ -63,16 +63,21 @@ public class ProductActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setMessage(R.string.alert_goback)
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        ProductActivity.this.finish();
-                    }
-                })
-                .setNegativeButton("No", null)
-                .show();
+
+        if(!order.getProducts().isEmpty()) {
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.alert_goback)
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            ProductActivity.this.finish();
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        }
+        else
+            ProductActivity.this.finish();
     }
 
     @Override

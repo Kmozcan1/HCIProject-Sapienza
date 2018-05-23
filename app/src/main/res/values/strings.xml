@@ -62,7 +62,7 @@
     <string name="sharelabel">Share</string>
     <string name="log_out_label">Log Out</string>
     <string name="zeroEuroLabel">0 €</string>
-    <string name="alert_goback">Are you sure you want to exit? Your order will be removed!</string>
-    <string name="alert_chooseProduct">You haven not choosen any prodcut</string>
+    <string name="alert_goback">Are you sure that you want to exit? \nItems in your cart will be removed!</string>
+    <string name="alert_chooseProduct">You have not choosen any product!</string>
 
 </resources>
