@@ -8,8 +8,6 @@ import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_insert_product.*
-import android.view.View
-import android.view.WindowManager
 import android.widget.*
 import android.media.ExifInterface
 import java.io.File
@@ -21,8 +19,7 @@ import android.support.v4.content.ContextCompat
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
-import android.support.v4.app.ActivityCompat.startActivityForResult
-import com.example.onlinemarket.onlinemarket.R.id.*
+import com.example.onlinemarket.onlinemarket.Utilities.Companion.openGallery
 
 private const val PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 0
 private const val BROWSE_GALLERY_FOR_PRODUCT_IMAGE = 0
@@ -43,8 +40,13 @@ class InsertProductActivity : AppCompatActivity() {
         setContentView(R.layout.activity_insert_product)
         fillCompanies()
         fillCategories()
-        imageBrowse_button.setOnClickListener {
-            if (hasPermission()) {
+
+        //Check Permission
+        val hasPermission = Utilities.hasPermission(this@InsertProductActivity,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)
+        insertProduct_imageBrowse_button.setOnClickListener {
+            if (hasPermission) {
                 openGallery()
             }
         }
@@ -80,15 +82,19 @@ class InsertProductActivity : AppCompatActivity() {
 
     private fun submitProduct() {
         //Make the screen non-interactive & progressBar visible
-        window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        progressBar.visibility = View.VISIBLE
+        Utilities.handleProgressBarAction(insertProduct_progressBar, window, true)
         if (intent.getStringExtra("from") == "productList") {
-            Utilities.updateProduct(createProduct())
-            progressBar.visibility = View.INVISIBLE
-            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            Toast.makeText(applicationContext,
-                    PRODUCT_UPDATED_MESSAGE, Toast.LENGTH_LONG).show()
+            when(submissionValid()) {
+                true -> {
+                    Utilities.updateProduct(createProduct())
+                    Utilities.handleProgressBarAction(insertProduct_progressBar, window, false)
+                    Toast.makeText(applicationContext,
+                            PRODUCT_UPDATED_MESSAGE, Toast.LENGTH_LONG).show()
+                }
+                false -> {
+                    Utilities.handleProgressBarAction(insertProduct_progressBar, window, false)
+                }
+            }
         }
         else {
             when(submissionValid()) {
@@ -97,15 +103,13 @@ class InsertProductActivity : AppCompatActivity() {
                     val ref = FirebaseDatabase.getInstance().getReference("products")
                     val productId = ref.push().key
                     ref.child(productId).setValue(createProduct()).addOnCompleteListener{
-                        progressBar.visibility = View.INVISIBLE
-                        window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        Utilities.handleProgressBarAction(insertProduct_progressBar, window, false)
                         Toast.makeText(applicationContext,
                                 PRODUCT_SUBMITTED_MESSAGE, Toast.LENGTH_LONG).show()
                     }
                 }
                 false -> {
-                    progressBar.visibility = View.INVISIBLE
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    Utilities.handleProgressBarAction(insertProduct_progressBar, window, false)
                 }
             }
         }
@@ -208,15 +212,15 @@ class InsertProductActivity : AppCompatActivity() {
     }
 
     private fun hasPermission(): Boolean {
-        if (ContextCompat.checkSelfPermission(this@InsertProductActivity,
+        return if (ContextCompat.checkSelfPermission(this@InsertProductActivity,
                         android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this@InsertProductActivity,
-                        arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                        PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)
-                return false
+            ActivityCompat.requestPermissions(this@InsertProductActivity,
+                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE)
+            false
         } else {
-            return true
+            true
         }
     }
 

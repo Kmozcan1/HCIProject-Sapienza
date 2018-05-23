@@ -54,22 +54,24 @@
         <activity
             android:name=".ProductListActivity"
             android:label="@string/title_productListActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
         </activity>
-
-        <meta-data
-            android:name="android.app.default_searchable"
+        <activity
+            android:name=".InsertCompanyActivity"
+            android:label="@string/insertCompany"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CompanyListActivity"
+            android:label="@string/editCompany"
+            android:theme="@style/AppTheme" />
+        <meta-data android:name="android.app.default_searchable"
             android:value=".MySearchableActivity" />
-
-        <activity android:name=".OrderActivity"></activity>
     </application>
 
 </manifest>
