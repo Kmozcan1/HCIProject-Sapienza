@@ -22,11 +22,13 @@ public class GridAdapter extends ArrayAdapter<Product> {
     private final Context context;
     private final ArrayList<Product> products;
     private final TextView totalPriceText;
+    public Order order;
     public ArrayList<HashMap<Integer,Integer>> hashMaps= new ArrayList<>();
     public int tabID;
 
-    public GridAdapter(Context context, ArrayList<Product> products, TextView totalPriceText, int tabID, int tabCount) {
+    public GridAdapter(Context context, ArrayList<Product> products, TextView totalPriceText, int tabID, int tabCount, Order order) {
         super(context, 0, products);
+        this.order=order;
         this.context = context;
         this.products = products;
         this.totalPriceText= totalPriceText;
@@ -63,6 +65,7 @@ public class GridAdapter extends ArrayAdapter<Product> {
             public void onClick(View v) {
                 int number =hashMaps.get(tabID).get(position);
                 number++;
+                order.InsertProduct(singleProductItem);
                 hashMaps.get(tabID).put(position,number);
                 numberText.setText(hashMaps.get(tabID).get(position).toString());
                 String lastPrice = calculatePrice(totalPriceText.getText().toString(), singleProductItem.price, true).toString() + " €";
@@ -76,6 +79,7 @@ public class GridAdapter extends ArrayAdapter<Product> {
             public void onClick(View v) {
                 int number =hashMaps.get(tabID).get(position);
                 if(number!=0) {
+                    order.DeleteProduct(singleProductItem);
                     number--;
                     hashMaps.get(tabID).put(position,number);
                     String lastPrice = calculatePrice(totalPriceText.getText().toString(), singleProductItem.price, false).toString() + " €";

@@ -237,7 +237,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
     private fun directMainActivity(user: User){
         val mainActivityIntent = Intent(this,MainActivity::class.java)
-        mainActivityIntent.putExtra("userEmail",user.email)
+        /*mainActivityIntent.putExtra("userEmail",user.email)
         mainActivityIntent.putExtra("userName", user.firstName)
         mainActivityIntent.putExtra("userLastName", user.lastname)
         mainActivityIntent.putExtra("userAddress", user.address)
@@ -245,7 +245,8 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         mainActivityIntent.putExtra("userCity", user.city)
         mainActivityIntent.putExtra("userCountry", user.country)
         mainActivityIntent.putExtra("userMobilePhone", user.userMobilePhone)
-        mainActivityIntent.putExtra("userPassword", user.userPassword)
+        mainActivityIntent.putExtra("userPassword", user.userPassword)*/
+        mainActivityIntent.putExtra("User", user)
         startActivity(mainActivityIntent)
     }
 
