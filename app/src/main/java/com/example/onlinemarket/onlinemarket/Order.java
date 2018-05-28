@@ -95,4 +95,8 @@ public class Order implements Serializable{
             products.put(product.productName,products.get(product).intValue() -1);
         setTotalPrice(Math.round((getTotalPrice()- product.price)*100.0)/100.0);
     }
+
+    public void setDone(Boolean done) {this.isDone = done;}
+
+    public Boolean getDone() {return isDone;}
 }

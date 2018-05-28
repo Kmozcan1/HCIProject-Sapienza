@@ -95,6 +95,8 @@ public class ProductActivity extends AppCompatActivity {
 
         TotalPrice= 0.0;
 
+        order.setDone(false);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -119,6 +121,7 @@ public class ProductActivity extends AppCompatActivity {
                 if(!order.getProducts().isEmpty()) {
                     orderPage.putExtra("user", user);
                     order.setTime();
+                    order.setCompanyName(companyName);
                     orderPage.putExtra("order", order);
                     startActivity(orderPage);
                 }
