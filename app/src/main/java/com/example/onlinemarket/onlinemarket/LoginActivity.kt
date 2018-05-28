@@ -24,6 +24,7 @@ import android.widget.TextView
 import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
 import android.content.Intent
+import android.support.annotation.RequiresApi
 import android.widget.Toast
 import com.google.firebase.database.*
 
@@ -46,8 +47,6 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
     var userAlreadyExist : Boolean ?= null
     var userPasswordMatch : Boolean ?= null
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -67,7 +66,6 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             }
             false
         })
-
         email_sign_in_button.setOnClickListener { attemptLogin() }
         register_button.setOnClickListener{directRegister()}
     }
