@@ -9,13 +9,15 @@ public class Order implements Serializable{
 
     private String userEmail;
     private Double TotalPrice;
-    private HashMap<Product,Integer> products;  //integer is quantity
+    private HashMap<String,Integer> products;  //integer is quantity , String is name
     private String zone;
     private String address;
     private String Time;
     private String companyName;
+    private Boolean isDone;
 
     public Order(String userEmail, String address, String zone, String companyName) {
+        this.isDone=false;
         this.userEmail = userEmail;
         this.address= address;
         this.zone= zone;
@@ -42,7 +44,7 @@ public class Order implements Serializable{
         TotalPrice = totalPrice;
     }
 
-    public HashMap<Product, Integer> getProducts() {
+    public HashMap<String, Integer> getProducts() {
         return products;
     }
     public String getTime() {
@@ -81,16 +83,16 @@ public class Order implements Serializable{
 
     public void InsertProduct(Product product){
         if(products.containsKey(product))
-            products.put(product, products.get(product).intValue() + 1);
+            products.put(product.productName, products.get(product).intValue() + 1);
         else
-            products.put(product,1);
+            products.put(product.productName,1);
         setTotalPrice(Math.round((getTotalPrice()+ product.price)*100.0)/100.0);
     }
     public void DeleteProduct(Product product){
         if(products.get(product)==1)
-            products.remove(product);
+            products.remove(product.productName);
         else
-            products.put(product,products.get(product).intValue() -1);
+            products.put(product.productName,products.get(product).intValue() -1);
         setTotalPrice(Math.round((getTotalPrice()- product.price)*100.0)/100.0);
     }
 }
