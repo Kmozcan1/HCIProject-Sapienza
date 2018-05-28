@@ -71,4 +71,27 @@
     <string name="alert_goback">Are you sure that you want to exit? \nItems in your cart will be removed!</string>
     <string name="alert_chooseProduct">You have not choosen any product!</string>
 
+    <!-- Strings related to order details -->
+    <string name="blank"></string>
+    <string name="my_order">MY ORDER</string>
+    <string name="user_details">User Details</string>
+    <string name="user_name">User Name</string>
+    <string name="user_email">User Email</string>
+    <string name="user_address">User Address</string>
+    <string name="user_city">User City</string>
+
+    <string name="user_name_label">Name:</string>
+    <string name="user_email_label">Email:</string>
+    <string name="user_address_label">Address:</string>
+    <string name="user_city_label">City:</string>
+
+    <string name="order_details">Order Details</string>
+    <string name="company">Company</string>
+    <string name="order_total">Total: </string>
+    <string name="total">Order Total</string>
+    <string name="confirm_order">Confirm Order</string>
+    <string name="order_confirmed">Order Confirmed!</string>
+    <string name="your_order">Your order will be with you soon!</string>
+    <string name="back">Back</string>
+
 </resources>
