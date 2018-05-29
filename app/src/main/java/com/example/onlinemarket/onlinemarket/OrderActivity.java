@@ -20,12 +20,19 @@ import java.util.Map;
 public class OrderActivity extends AppCompatActivity {
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Clear the Activity's bundle of the subsidiary fragments' bundles.
+        outState.clear();
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
         final User user = (User)getIntent().getSerializableExtra("user");
-        final Order order = (Order)getIntent().getSerializableExtra("order");
+        //final Order order = (Order)getIntent().getSerializableExtra("order");
+        final Order order = Utilities.Companion.getOrder();
 
         TextView user_name = findViewById(R.id.user_name);
         user_name.setText(R.string.blank);
@@ -51,16 +58,21 @@ public class OrderActivity extends AppCompatActivity {
         ListView order_list = findViewById(R.id.order_list);
         int productCount = order.getProducts().size();
 
-        /*
-        HashMap<Product, Integer> productList = order.getProducts();
-        String[] products = new String[productCount];
+
+        final HashMap<Product, Integer> productList = order.getProducts();
+        final HashMap<String, Integer> orderProducts = new HashMap<String, Integer>();
+        final String[] products = new String[productCount];
         int count = 0;
+
+
 
         for (Map.Entry<Product, Integer> entry : productList.entrySet()) {
             Product key = entry.getKey();
             Integer value = entry.getValue();
 
-            products[count] = (value.toString() + "x " + key.getProductName());
+            orderProducts.put(key.getProductKey(), value);
+
+            products[count] = ( value.toString() + "x " + key.productName + "    " + (key.price*value)+"€");
             count++;
         }
 
@@ -74,7 +86,7 @@ public class OrderActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 
         order_list.setAdapter(adapter);
-        */
+
 
         TextView order_total = (TextView)findViewById(R.id.order_total);
         order_total.setText(R.string.blank);
@@ -94,7 +106,26 @@ public class OrderActivity extends AppCompatActivity {
                 order.setAddress((user.getAddress()));
                 order.setDone(true);
 
-                ref.child(orderID).setValue(order);
+
+                Map<String, Object> orderData = new HashMap<String, Object>();
+                orderData.put("email",  order.getUserEmail());
+                orderData.put("price", order.getTotalPrice());
+                orderData.put("zone", order.getZone());
+                orderData.put("time", order.getTime());
+                orderData.put("address", order.getAddress());
+                orderData.put("isDone", false);
+                orderData.put("companyName", order.getCompanyName());
+
+                ref.child(orderID).setValue(orderData);
+                for (Map.Entry<Product, Integer> entry : productList.entrySet()) {
+                    Product key = entry.getKey();
+                    Integer value = entry.getValue();
+
+                    ref.child(orderID).child("orderedproducts").child(key.getProductKey()).setValue(key);
+                    ref.child(orderID).child("orderedproducts").child(key.getProductKey()).child("quantity").setValue(value);
+                    ref.child(orderID).child("orderedproducts").child(key.getProductKey()).child("productKey").removeValue();
+                }
+                orderConfirm.putExtra("user", user);
                 startActivity(orderConfirm);
             }
         });

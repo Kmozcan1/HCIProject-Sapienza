@@ -3,7 +3,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -16,30 +16,16 @@
     <string-array name="countryNames">
         <item>--Select your country--</item>
         <item>  Italy</item>
-        <item>  Turkey</item>
-        <item>  United Kingdom</item>
-        <item>  Republic of Uganda</item>
     </string-array>
 
     <string-array name="cityNamesItaly">
         <item>--Select your city--</item>
         <item>  Roma</item>
-        <item>  Milano</item>
     </string-array>
 
     <string-array name="zoneNamesRoma">
         <item>--Select your zone--</item>
-        <item>  Prati, Borgo, Mazzini, Delle Vittorie</item>
-        <item>  Parioli, Flaminio</item>
-        <item>  Salario, Trieste</item>
         <item>  Bologna, Policlinico</item>
-        <item>  Termini, Repubblica</item>
-        <item>  Pigneto, San Lorenzo, Casal Bertone</item>
-        <item>  Re di Roma, San Giovanni</item>
-        <item>  Appio Latino, Colli Albani</item>
-        <item>  Garbatella, Navigatori, Ostiense</item>
-        <item>  Marconi, San Paolo</item>
-        <item>  Testaccio, Trastevere</item>
     </string-array>
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

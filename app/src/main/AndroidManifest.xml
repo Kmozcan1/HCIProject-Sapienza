@@ -80,6 +80,8 @@
 
         <activity android:name=".OrderActivity" >
         </activity>
+        <activity android:name=".OrderConfirmed" >
+        </activity>
     </application>
 
 </manifest>
