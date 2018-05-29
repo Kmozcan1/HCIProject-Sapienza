@@ -8,6 +8,15 @@ import android.widget.Button;
 
 public class OrderConfirmed extends AppCompatActivity {
 
+    User user;
+    @Override
+    public void onBackPressed() {
+        Intent gotoScreenVar = new Intent(OrderConfirmed.this, MainActivity.class);
+
+        gotoScreenVar.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        gotoScreenVar.putExtra("User", user);
+        startActivity(gotoScreenVar);
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -19,6 +28,7 @@ public class OrderConfirmed extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_confirmed);
+        user = (User) getIntent().getSerializableExtra("user");
 
 
         final Intent productList = new Intent(this, ProductActivity.class);
@@ -28,7 +38,11 @@ public class OrderConfirmed extends AppCompatActivity {
 
             public void onClick(View v) {
 
-                startActivity(productList);
+                Intent gotoScreenVar = new Intent(OrderConfirmed.this, MainActivity.class);
+                gotoScreenVar.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                gotoScreenVar.putExtra("User", user);
+                startActivity(gotoScreenVar);
             }
         });
 

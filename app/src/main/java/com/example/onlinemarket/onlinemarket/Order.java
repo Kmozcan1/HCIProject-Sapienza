@@ -9,14 +9,25 @@ public class Order implements Serializable{
 
     private String userEmail;
     private Double TotalPrice;
-    private HashMap<String,Integer> products;  //integer is quantity , String is name
+    private String orderKey;
+    private HashMap<Product,Integer> products;  //integer is quantity , String is name
     private String zone;
     private String address;
     private String Time;
     private String companyName;
     private Boolean isDone;
 
-    public Order(String userEmail, String address, String zone, String companyName) {
+    public Order(String orderKey, String userEmail, String address, String zone, String companyName) {
+        this.orderKey = orderKey;
+        this.isDone=false;
+        this.userEmail = userEmail;
+        this.address= address;
+        this.zone= zone;
+        this.companyName= companyName;
+        TotalPrice = 0.0;
+        this.products = new HashMap<>();
+    }
+    public Order( String userEmail, String address, String zone, String companyName) {
         this.isDone=false;
         this.userEmail = userEmail;
         this.address= address;
@@ -44,7 +55,7 @@ public class Order implements Serializable{
         TotalPrice = totalPrice;
     }
 
-    public HashMap<String, Integer> getProducts() {
+    public HashMap<Product, Integer> getProducts() {
         return products;
     }
     public String getTime() {
@@ -83,20 +94,23 @@ public class Order implements Serializable{
 
     public void InsertProduct(Product product){
         if(products.containsKey(product))
-            products.put(product.productName, products.get(product).intValue() + 1);
+            products.put(product, products.get(product).intValue() + 1);
         else
-            products.put(product.productName,1);
+            products.put(product,1);
         setTotalPrice(Math.round((getTotalPrice()+ product.price)*100.0)/100.0);
     }
     public void DeleteProduct(Product product){
         if(products.get(product)==1)
-            products.remove(product.productName);
+            products.remove(product);
         else
-            products.put(product.productName,products.get(product).intValue() -1);
+            products.put(product,products.get(product).intValue() -1);
         setTotalPrice(Math.round((getTotalPrice()- product.price)*100.0)/100.0);
     }
 
     public void setDone(Boolean done) {this.isDone = done;}
 
     public Boolean getDone() {return isDone;}
+    public String getOrderKey() {
+        return orderKey;
+    }
 }

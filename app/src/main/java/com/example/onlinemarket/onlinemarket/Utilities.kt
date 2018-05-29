@@ -22,6 +22,8 @@ class Utilities {
     companion object {
         private val fireBaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
 
+        private var staticOrder: Order? = null
+
         init {
             if (fireBaseDatabase == null) {
                 fireBaseDatabase.setPersistenceEnabled(true)
@@ -30,6 +32,14 @@ class Utilities {
 
         private fun getDatabase() : FirebaseDatabase? {
             return fireBaseDatabase
+        }
+
+        fun getOrder(): Order? {
+            return staticOrder
+        }
+
+        fun setOrder(orderObject: Order) {
+            staticOrder = orderObject
         }
 
         fun getProducts(listener: FireBaseListener){
