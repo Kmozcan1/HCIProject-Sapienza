@@ -72,7 +72,7 @@ public class OrderActivity extends AppCompatActivity {
 
             orderProducts.put(key.getProductKey(), value);
 
-            products[count] = ( value.toString() + "x " + key.productName + "    " +key.price.toString()+"€");
+            products[count] = ( value.toString() + "x " + key.productName + "    " + (key.price*value)+"€");
             count++;
         }
 
@@ -123,6 +123,7 @@ public class OrderActivity extends AppCompatActivity {
 
                     ref.child(orderID).child("orderedproducts").child(key.getProductKey()).setValue(key);
                     ref.child(orderID).child("orderedproducts").child(key.getProductKey()).child("quantity").setValue(value);
+                    ref.child(orderID).child("orderedproducts").child(key.getProductKey()).child("productKey").removeValue();
                 }
                 orderConfirm.putExtra("user", user);
                 startActivity(orderConfirm);
