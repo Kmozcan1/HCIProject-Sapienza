@@ -123,6 +123,7 @@ public class OrderActivity extends AppCompatActivity {
 
                     ref.child(orderID).child("orderedproducts").child(key.getProductKey()).setValue(key);
                     ref.child(orderID).child("orderedproducts").child(key.getProductKey()).child("quantity").setValue(value);
+                    ref.child(orderID).child("orderedproducts").child(key.getProductKey()).child("productKey").removeValue();
                 }
                 orderConfirm.putExtra("user", user);
                 startActivity(orderConfirm);
