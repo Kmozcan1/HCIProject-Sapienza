@@ -28,12 +28,11 @@
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/contentMain_progressBar">
 
-        <ImageView
-            android:id="@+id/main_picure"
+        <fragment
+            android:id="@+id/mapView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/noimage" />
+            class="com.google.android.gms.maps.SupportMapFragment"/>
 
         <ListView
             android:id="@+id/company_list_view"

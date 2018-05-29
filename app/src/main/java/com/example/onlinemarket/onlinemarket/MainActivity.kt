@@ -21,13 +21,17 @@ import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import com.google.android.gms.internal.tv
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_company_list.*
 import kotlinx.android.synthetic.main.content_main.*
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
     var FBdatabase : DatabaseReference?= null
+    private lateinit var mMap: GoogleMap
 
     @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(Build.VERSION_CODES.O)
@@ -37,6 +41,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         Utilities.handleProgressBarAction(contentMain_progressBar, window, true)
         setSupportActionBar(toolbar)
+        val mapFragment = supportFragmentManager
+                .findFragmentById(R.id.mapView) as? SupportMapFragment
+        mapFragment!!.getMapAsync(this)
 
 
         val toggle = ActionBarDrawerToggle(
@@ -100,6 +107,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(productIntent)
             }
         }
+    }
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+
+        val conad = LatLng(41.919742, 12.522352)
+        mMap.addMarker(MarkerOptions().position(conad).title("Conad"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(conad))
+
+        val carre = LatLng(41.919296, 12.520331)
+        mMap.addMarker(MarkerOptions().position(carre).title("Carrefour"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(carre))
     }
 
     override fun onBackPressed() {
