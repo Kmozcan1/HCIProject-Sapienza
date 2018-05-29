@@ -119,17 +119,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
         }
+
+
     }
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
         val conad = LatLng(41.919742, 12.522352)
         mMap.addMarker(MarkerOptions().position(conad).title("Conad"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(conad))
 
         val carre = LatLng(41.919296, 12.520331)
+
+        val between =  LatLng((carre.latitude+ conad.latitude)/2 , (carre.longitude+ conad.longitude)/2)
         mMap.addMarker(MarkerOptions().position(carre).title("Carrefour"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(carre))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom((between), 15.0f))
     }
 
     override fun onBackPressed() {
