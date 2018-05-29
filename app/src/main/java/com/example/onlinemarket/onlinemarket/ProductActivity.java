@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -122,7 +123,8 @@ public class ProductActivity extends AppCompatActivity {
                     orderPage.putExtra("user", user);
                     order.setTime();
                     order.setCompanyName(companyName);
-                    orderPage.putExtra("order", order);
+                    //orderPage.putExtra("order", order);
+                    Utilities.Companion.setOrder(order);
                     startActivity(orderPage);
                 }
                 else
@@ -206,14 +208,17 @@ public class ProductActivity extends AppCompatActivity {
             return fragment;
         }
         public String getCategoryName(int tabID){
-            String[] names = {"Food", "Grocery","Meat", "Frozen", "Dairy ", "Drink", "Alcohol", "Personal Care", "Cleaning"};
+            String[] names = {"Food", "Grocery","Meat", "Frozen", "Dairy", "Drink", "Alcohol", "Personal Care", "Cleaning"};
             return names[tabID];
         }
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
+
             final View rootView = inflater.inflate(R.layout.fragment_product, container, false);
+
+
             TextView textView = rootView.findViewById(R.id.section_label);
             ImageView imageView= rootView.findViewById(R.id.section_image);
 
@@ -254,11 +259,12 @@ public class ProductActivity extends AppCompatActivity {
                     for (DataSnapshot productObject : dataSnapshot.getChildren()) {
                         if (companyName.equals(productObject.child("company").getValue()))
                             if(productObject.child("category").getValue().equals(getCategoryName(sectionNumber))){
+                                String key = productObject.getKey();
                                 String p_name = productObject.child("productName").getValue().toString();
                                 String p_image = productObject.child("productImage").getValue().toString();
                                 Double p_price = (Double) productObject.child("price").getValue();
                                 String p_category = productObject.child("category").getValue().toString();
-                                Product product = new Product(p_name, p_price, companyName, p_image, p_category);
+                                Product product = new Product(key ,p_name, p_price, companyName, p_image, p_category);
                                 productList.add(product);
                             }
                     }
@@ -292,7 +298,9 @@ public class ProductActivity extends AppCompatActivity {
                     gridView.setAdapter(gridAdapter);
                 }
             });*/
-           return rootView;
+
+
+            return rootView;
         }
     }
 

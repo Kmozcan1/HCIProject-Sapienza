@@ -1,7 +1,9 @@
 package com.example.onlinemarket.onlinemarket
 
 import android.annotation.TargetApi
+import android.app.AlertDialog
 import android.content.ClipData
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -94,10 +96,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 // Get the selected item text from ListView
                 val selectedItem = parent.getItemAtPosition(position) as Company
-                productIntent.putExtra("companyName",selectedItem.companyName)
-                productIntent.putExtra("user",user)
-                productIntent.putExtra("order", order)
-                startActivity(productIntent)
+                if(selectedItem.calculateOpenOrClosed()=="Open") {
+                    productIntent.putExtra("companyName", selectedItem.companyName)
+                    productIntent.putExtra("user", user)
+                    productIntent.putExtra("order", order)
+                    startActivity(productIntent)
+                }
+                else
+                {
+                    val alert = AlertDialog.Builder(this@MainActivity)
+                    alert.setTitle("Alert")
+                    alert.setMessage("This company is now closed!")
+                    alert.setPositiveButton("OK", null)
+                    alert.show()
+                }
             }
         }
     }

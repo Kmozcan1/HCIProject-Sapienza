@@ -198,7 +198,7 @@ class InsertProductActivity : AppCompatActivity() {
     }
 
     private fun fillCategories() {
-        val categoryList = arrayOf("Please Select a Category", "Cleaning", "Drink", "Food", "Personal Care")
+        val categoryList = arrayOf("Please Select a Category", "Food", "Grocery","Meat", "Frozen", "Dairy", "Drink", "Alcohol", "Personal Care", "Cleaning")
         categoryAdapter = ArrayAdapter(this@InsertProductActivity,
                 R.layout.spinner_list_item_without_padding, categoryList)
         category_spinner.adapter = categoryAdapter
