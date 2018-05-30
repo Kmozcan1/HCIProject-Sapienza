@@ -117,10 +117,11 @@ class RegisterActivity : AppCompatActivity() {
                             for(userObject in p0.children){
                                 val usr = userObject.getValue(User :: class.java)
                                 userList!!.add(usr!!)
-                                println("Already registered e-mail addresses are :")
-                                println(usr.email)
+
+
                                 if(usr.email.equals(register_email.text.toString())){
                                     userAlreadyExist = true
+
                                 }
                             }
                         }
@@ -130,20 +131,26 @@ class RegisterActivity : AppCompatActivity() {
                         }
                     }
                 })
-                if(userAlreadyExist!!){
-                    register_email.error = "Please enter different e-mail address"
-                    focusView = register_email
-                    cancel = true
-                    isMailValid = false
-                    Toast.makeText(applicationContext,"This e-mail has been already registered ! ", Toast.LENGTH_LONG).show()
 
-                }
-                else{
-                    finishRegistration(firstname!!,lastname!!,email!!,password1!!,userMobileNum!!,
-                            address1!!,selectedCountry!!, selectedCity!!, selectedZone!!)
+
+            }
+            for(userItem in userList!!){
+                if(userItem.email.equals(register_email.text.toString())){
+                    println("Already registered e-mail addresses are :")
+                    userAlreadyExist = true
+                    break;
                 }
 
             }
+            if(userAlreadyExist!!){
+                register_email.error = "Please enter different e-mail address"
+                focusView = register_email
+                cancel = true
+                isMailValid = false
+                Toast.makeText(applicationContext,"This e-mail has been already registered ! ", Toast.LENGTH_LONG).show()
+
+            }
+
             else if (isCountryValid == false){
                 Toast.makeText(applicationContext,"Please select your country ! ", Toast.LENGTH_LONG).show()
             }
@@ -154,6 +161,10 @@ class RegisterActivity : AppCompatActivity() {
             else if (isZoneValid == false){
                 Toast.makeText(applicationContext,"Please select your zone ! ", Toast.LENGTH_LONG).show()
 
+            }
+            else{
+                finishRegistration(firstname!!,lastname!!,email!!,password1!!,userMobileNum!!,
+                        address1!!,selectedCountry!!, selectedCity!!, selectedZone!!)
             }
         }
 
@@ -173,13 +184,13 @@ class RegisterActivity : AppCompatActivity() {
 
         ref.child(userId).setValue(userObject).addOnCompleteListener{
             Toast.makeText(applicationContext,"You registered successfully ! ", Toast.LENGTH_LONG).show()
-            directMainActivity(email)
+            directMainActivity(userObject)
 
         }
     }
-    private fun directMainActivity(userEmail: String){
+    private fun directMainActivity(user: User){
         val mainActivityIntent = Intent(this,MainActivity::class.java)
-        mainActivityIntent.putExtra("userEmail",userEmail)
+        mainActivityIntent.putExtra("User",user)
         startActivity(mainActivityIntent)
     }
 
@@ -289,16 +300,20 @@ class RegisterActivity : AppCompatActivity() {
             cancel = false
             isPasswordValid = true
         }
-        if(TextUtils.isEmpty(password2)){
-            re_password.error = getString(R.string.error_field_required)
-            focusView = re_password
-            cancel = true
-            isPasswordValid = false
+        if(isPasswordValid!!){
+            if(TextUtils.isEmpty(password2)){
+                re_password.error = getString(R.string.error_field_required)
+                focusView = re_password
+                cancel = true
+                isPasswordValid = false
+            }
+            else{
+                cancel = false
+                isPasswordValid = true
+            }
+
         }
-        else{
-            cancel = false
-            isPasswordValid = true
-        }
+
         if(!password1.equals(password2)){
             re_password.error = "Passwords doesn't match !"
             focusView = re_password
