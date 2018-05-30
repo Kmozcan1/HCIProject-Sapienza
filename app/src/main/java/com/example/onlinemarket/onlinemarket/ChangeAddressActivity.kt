@@ -1,5 +1,6 @@
 package com.example.onlinemarket.onlinemarket
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -46,6 +47,10 @@ class ChangeAddressActivity : AppCompatActivity() {
                 reference!!.child(user!!.userId).child("address").setValue(newAddress)
 
                 Toast.makeText(applicationContext,"Address has been changed successfully ! ", Toast.LENGTH_LONG).show()
+
+                val returnSettingsActivity = Intent(this,MainActivity::class.java)
+                returnSettingsActivity.putExtra("User",user)
+                startActivity(returnSettingsActivity)
             }
 
         }

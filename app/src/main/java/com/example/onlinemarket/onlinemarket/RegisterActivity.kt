@@ -327,7 +327,7 @@ class RegisterActivity : AppCompatActivity() {
             isPasswordValid2 = true
         }
         if(!password1.equals(password2)){
-            re_password.error = "Passwords doesn't match !"
+            re_password.error = "Password doesn't match !"
             focusView = re_password
             cancel = true
             isPasswordValid = false
