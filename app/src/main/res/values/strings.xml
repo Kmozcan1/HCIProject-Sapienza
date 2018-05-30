@@ -27,7 +27,7 @@
         <item>--Select your zone--</item>
         <item>  Bologna, Policlinico</item>
     </string-array>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Choose Company</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -50,7 +50,7 @@
     <string name="selectedItemTitle">Selected Items:</string>
     <string name="admin_page_label">Admin Page</string>
     <string name="account_settings_label">Account Settings</string>
-    <string name="communicate_label">Communicate</string>
+    <string name="communicate_label">Manage</string>
     <string name="sharelabel">Share</string>
     <string name="log_out_label">Log Out</string>
     <string name="zeroEuroLabel">0 €</string>
