@@ -13,8 +13,8 @@
         android:allowBackup="true"
         android:icon="@drawable/groceries"
         android:label="Online Market"
-        android:roundIcon="@drawable/groceries"
         android:largeHeap="true"
+        android:roundIcon="@drawable/groceries"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
@@ -23,7 +23,7 @@
 
         <activity
             android:name=".LoginActivity"
-            android:label="Online Market - Login"></activity>
+            android:label="Online Market - Login" />
         <activity
             android:name=".RegisterActivity"
             android:label="Online Market - Register" />
@@ -76,9 +76,11 @@
             android:name="android.app.default_searchable"
             android:value=".MySearchableActivity" />
 
-        <activity android:name=".OrderActivity"></activity>
-        <activity android:name=".OrderConfirmed"></activity>
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".OrderActivity" />
+        <activity android:name=".OrderConfirmed" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ChangeAddressActivity" />
+        <activity android:name=".ChangePasswordActivity"></activity>
     </application>
 
 </manifest>

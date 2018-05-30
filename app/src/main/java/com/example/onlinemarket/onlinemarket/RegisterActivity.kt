@@ -187,12 +187,14 @@ class RegisterActivity : AppCompatActivity() {
 
         //CHECK IF USER ALREADY EXISTS OR NOT AND WRITE ALL INFO TO DATABASE
 
-        val userObject :User = User(firstname,lastname,email,password1, userMobileNum,
-                                    selectedCountry,selectedCity,selectedZone,address)
+
 
         val ref = FirebaseDatabase.getInstance().getReference("users")
 
         val userId = ref.push().key
+
+        val userObject :User = User(userId,firstname,lastname,email,password1, userMobileNum,
+                selectedCountry,selectedCity,selectedZone,address)
 
         ref.child(userId).setValue(userObject).addOnCompleteListener{
             Toast.makeText(applicationContext,"You registered successfully ! ", Toast.LENGTH_LONG).show()

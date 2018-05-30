@@ -1,8 +1,10 @@
 package com.example.onlinemarket.onlinemarket
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {
     var user:User ?= null
@@ -54,6 +56,19 @@ class SettingsActivity : AppCompatActivity() {
 
         val addressViev :TextView = findViewById(R.id.address);
         addressViev.setText(address)
+
+        addressButton.setOnClickListener(){
+
+            val modifyAddressActivity = Intent(this,ChangeAddressActivity::class.java)
+            modifyAddressActivity.putExtra("User",user)
+            startActivity(modifyAddressActivity)
+        }
+        passwordButton.setOnClickListener(){
+
+            val modifyPasswordActivity = Intent(this,ChangePasswordActivity::class.java)
+            modifyPasswordActivity.putExtra("User",user)
+            startActivity(modifyPasswordActivity)
+        }
 
     }
 }
