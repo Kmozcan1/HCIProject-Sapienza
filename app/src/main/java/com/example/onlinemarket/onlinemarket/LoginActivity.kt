@@ -24,6 +24,7 @@ import android.widget.TextView
 import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
 import android.content.Intent
+import android.content.SharedPreferences
 import android.support.annotation.RequiresApi
 import android.widget.Toast
 import com.google.firebase.database.*
@@ -47,6 +48,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
     var userAlreadyExist : Boolean ?= null
     var userPasswordMatch : Boolean ?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -244,6 +246,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         mainActivityIntent.putExtra("userCountry", user.country)
         mainActivityIntent.putExtra("userMobilePhone", user.userMobilePhone)
         mainActivityIntent.putExtra("userPassword", user.userPassword)*/
+
         mainActivityIntent.putExtra("User", user)
         startActivity(mainActivityIntent)
     }

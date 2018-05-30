@@ -13,22 +13,24 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Online Market"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:largeHeap="true">
-        <meta-data android:name="com.google.android.maps.v2.API_KEY"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyADqdJeScHxc7S4jKE-4uZ8ajDIvhrCFcY" />
+
         <activity
             android:name=".LoginActivity"
-            android:label="Online Market - Login">
-        </activity>
+            android:label="Online Market - Login"></activity>
         <activity
             android:name=".RegisterActivity"
             android:label="Online Market - Register" />
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -51,14 +53,15 @@
         <activity
             android:name=".ProductListActivity"
             android:label="@string/title_productListActivity"
-            android:theme="@style/AppTheme"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
 
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
         <activity
             android:name=".InsertCompanyActivity"
@@ -68,14 +71,14 @@
             android:name=".CompanyListActivity"
             android:label="@string/editCompany"
             android:theme="@style/AppTheme" />
-        <meta-data android:name="android.app.default_searchable"
+
+        <meta-data
+            android:name="android.app.default_searchable"
             android:value=".MySearchableActivity" />
 
-
-        <activity android:name=".OrderActivity" >
-        </activity>
-        <activity android:name=".OrderConfirmed" >
-        </activity>
+        <activity android:name=".OrderActivity"></activity>
+        <activity android:name=".OrderConfirmed"></activity>
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>

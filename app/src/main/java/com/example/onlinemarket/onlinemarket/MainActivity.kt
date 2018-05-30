@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     var FBdatabase : DatabaseReference?= null
     private lateinit var mMap: GoogleMap
-
+    var user:User ?= null
     @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,18 +59,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navAddressText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.address_label)
         val navCityText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.city_label)
         val navAdminButton= nav_view.menu.getItem(0)
-        val user:User= intent.getSerializableExtra("User") as User
-        navEmailText.text=  user.email
-        navAddressText.text= user.address
-        navCityText.text=user.city
+        user= intent.getSerializableExtra("User") as? User
+        navEmailText.text=  user!!.email
+        navAddressText.text= user!!.address
+        navCityText.text=user!!.city
         if(navEmailText.text == "admin@admin")
             navAdminButton.setVisible(true)
-        navNameText.text= user.firstName + " " + user.lastname
+        navNameText.text= user!!.firstName + " " + user!!.lastname
 
         val companyList = ArrayList<Company>()
         val companyListView = findViewById<ListView>(R.id.company_list_view)
 
-        order= Order(user.email,user.address,user.zone,"")
+        order= Order(user!!.email,user!!.address,user!!.zone,"")
 
 
         FBdatabase= FirebaseDatabase.getInstance().getReference("companies")
@@ -162,12 +162,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         val adminActivity = Intent(this,AdminActivity::class.java)
+        val settingsActivity = Intent(this,SettingsActivity::class.java)
         when (item.itemId) {
 
             R.id.nav_Admin -> {
                 startActivity(adminActivity)
             }
             R.id.nav_manage -> {
+                settingsActivity.putExtra("user", user)
+                startActivity(settingsActivity)
 
             }
             R.id.nav_share -> {
