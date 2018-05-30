@@ -29,6 +29,8 @@ var focusView: View? = null
 var isMailValid : Boolean ?=null
 var isNamesValid : Boolean ?= null
 var isPasswordValid : Boolean ?= null
+var isPasswordValid2 : Boolean ?= null
+var isPasswordLong : Boolean ?= null
 var isAdressValid : Boolean ?= null
 var isNumValid : Boolean ?= null
 
@@ -106,6 +108,7 @@ class RegisterActivity : AppCompatActivity() {
                     &&(isCityValid!!)&&(isZoneValid!!)&&(isNumValid!!)){
                 println("Dataretrieve will be done ! ")
 
+
                 reference!!.addValueEventListener(object : ValueEventListener{
                     override fun onCancelled(p0: DatabaseError?) {
                         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -117,31 +120,37 @@ class RegisterActivity : AppCompatActivity() {
                             for(userObject in p0.children){
                                 val usr = userObject.getValue(User :: class.java)
                                 userList!!.add(usr!!)
-
-
-                                if(usr.email.equals(register_email.text.toString())){
-                                    userAlreadyExist = true
-
+                                if(usr.email.toString().equals(register_email.text.toString())){
+                                    userAlreadyExist=true
+                                    cancel = true
+                                    break;
+                                }
+                                else{
+                                    userAlreadyExist = false
+                                    cancel = false
                                 }
                             }
-                        }
-                        else{
-                            userAlreadyExist=false
-
                         }
                     }
                 })
 
 
             }
-            for(userItem in userList!!){
+            /*for(userItem in userList!!){
                 if(userItem.email.equals(register_email.text.toString())){
                     println("Already registered e-mail addresses are :")
+                    print("HERE :")
+                    print(userItem.email)
                     userAlreadyExist = true
+                    cancel = true
                     break;
                 }
+                else{
+                    userAlreadyExist = false
+                    cancel = false
+                }
 
-            }
+            }*/
             if(userAlreadyExist!!){
                 register_email.error = "Please enter different e-mail address"
                 focusView = register_email
@@ -161,6 +170,9 @@ class RegisterActivity : AppCompatActivity() {
             else if (isZoneValid == false){
                 Toast.makeText(applicationContext,"Please select your zone ! ", Toast.LENGTH_LONG).show()
 
+            }
+            if(cancel){
+                focusView?.requestFocus()
             }
             else{
                 finishRegistration(firstname!!,lastname!!,email!!,password1!!,userMobileNum!!,
@@ -294,37 +306,42 @@ class RegisterActivity : AppCompatActivity() {
             focusView = password
             cancel = true
             isPasswordValid = false
+            isPasswordLong = false
 
         }
         else{
             cancel = false
             isPasswordValid = true
+            isPasswordLong = true
         }
-        if(isPasswordValid!!){
-            if(TextUtils.isEmpty(password2)){
-                re_password.error = getString(R.string.error_field_required)
-                focusView = re_password
-                cancel = true
-                isPasswordValid = false
-            }
-            else{
-                cancel = false
-                isPasswordValid = true
-            }
-
+        if(TextUtils.isEmpty(password2)){
+            re_password.error = getString(R.string.error_field_required)
+            focusView = re_password
+            cancel = true
+            isPasswordValid2 = false
         }
-
+        else{
+            cancel = false
+            isPasswordValid2 = true
+        }
         if(!password1.equals(password2)){
             re_password.error = "Passwords doesn't match !"
             focusView = re_password
             cancel = true
             isPasswordValid = false
+            isPasswordValid2 = false
 
         }
         else{
             cancel = false
             isPasswordValid = true
         }
+
+        if((isPasswordValid2 == false) || (isPasswordValid ==false)|| (isPasswordLong==false)){
+            isPasswordValid = false
+            cancel = true;
+        }
+
         if (cancel) {
             // There was an error; don't attempt register and focus the first
             // form field with an error.
@@ -374,11 +391,6 @@ class RegisterActivity : AppCompatActivity() {
                     isCityValid = true
                     showZoneInRoma()
                 }
-                if (selectedCity.equals("Milano")){
-
-                    isCityValid = true
-                    showZoneInMilano()
-                }
 
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -421,9 +433,6 @@ class RegisterActivity : AppCompatActivity() {
 
             }
         }
-
-    }
-    private fun showZoneInMilano(){
 
     }
 
