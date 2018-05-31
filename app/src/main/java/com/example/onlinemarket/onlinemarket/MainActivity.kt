@@ -5,8 +5,11 @@ import android.app.AlertDialog
 import android.content.ClipData
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.SharedPreferences.Editor
 import android.os.Build
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.annotation.RequiresApi
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -32,6 +35,7 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
+    var preferences : SharedPreferences?= null
     var FBdatabase : DatabaseReference?= null
     private lateinit var mMap: GoogleMap
     var user:User ?= null
@@ -46,6 +50,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.mapView) as? SupportMapFragment
         mapFragment!!.getMapAsync(this)
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        val editor:Editor = preferences!!.edit();
+        editor.putInt("isLogged",1)
+        editor.commit();
 
 
         val toggle = ActionBarDrawerToggle(
