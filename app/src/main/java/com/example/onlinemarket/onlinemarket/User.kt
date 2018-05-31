@@ -5,9 +5,9 @@ import java.io.Serializable
 /**
  * Created by EmreSelcuk on 24.4.2018.
  */
-class User (val userId :String, val firstName : String, val lastname : String,
-            val email : String, val userPassword : String, val userMobilePhone : String,
-            val country : String, var city : String, val zone : String, var address : String) :Serializable {
+class User (var userId :String, var firstName : String, var lastname : String,
+            var email : String, var userPassword : String, var userMobilePhone : String,
+            var country : String, var city : String, var zone : String, var address : String) :Serializable {
 
     constructor():this ("","","","","","","","","","")
 
