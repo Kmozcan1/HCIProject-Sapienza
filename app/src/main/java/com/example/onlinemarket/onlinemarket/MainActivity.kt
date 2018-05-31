@@ -60,6 +60,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navCityText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.city_label)
         val navAdminButton= nav_view.menu.getItem(0)
         user= intent.getSerializableExtra("User") as? User
+        val FBuserDatabase= FirebaseDatabase.getInstance().getReference("user")
+        FBuserDatabase!!.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(p0: DatabaseError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot?) {
+                if(p0!!.exists()) {
+                    for (usr in p0.children) {
+                        if(usr.child("email").getValue() == user!!.email) {
+                            user!!.address= usr.child("address").getValue() as String
+                            user!!.city= usr.child("city").getValue() as String
+                            navAddressText.text= user!!.address
+                            navCityText.text=user!!.city
+                        }
+                    }
+                }
+            }
+
+        })
+
         navEmailText.text=  user!!.email
         navAddressText.text= user!!.address
         navCityText.text=user!!.city

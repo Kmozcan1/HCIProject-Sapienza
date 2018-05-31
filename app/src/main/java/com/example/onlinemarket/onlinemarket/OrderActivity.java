@@ -90,7 +90,7 @@ public class OrderActivity extends AppCompatActivity {
 
         TextView order_total = (TextView)findViewById(R.id.order_total);
         order_total.setText(R.string.blank);
-        order_total.append("€" + order.getTotalPrice().toString());
+        order_total.append("€" + (Math.round(order.getTotalPrice()*100.0)/100.0));
 
         final Intent orderConfirm = new Intent(this, OrderConfirmed.class);
 
