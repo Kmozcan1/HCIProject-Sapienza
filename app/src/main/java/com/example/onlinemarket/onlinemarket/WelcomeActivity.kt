@@ -57,6 +57,7 @@ class WelcomeActivity : AppCompatActivity() {
 
                             Handler().postDelayed(object :Runnable{
                                 public override fun run() {
+                                    Utilities.activeUser = user
                                     mainActivity.putExtra("User", user)
                                     startActivity(mainActivity)
                                     finish()
