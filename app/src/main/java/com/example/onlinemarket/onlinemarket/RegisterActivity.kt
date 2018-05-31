@@ -205,6 +205,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun directMainActivity(user: User){
         val mainActivityIntent = Intent(this,MainActivity::class.java)
         mainActivityIntent.putExtra("User",user)
+        Utilities.activeUser = user
         startActivity(mainActivityIntent)
     }
 

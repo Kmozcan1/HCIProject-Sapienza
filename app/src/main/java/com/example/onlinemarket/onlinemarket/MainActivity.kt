@@ -195,6 +195,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         val adminActivity = Intent(this,AdminActivity::class.java)
+        val orderListActivity = Intent(this, OrderListActivity::class.java)
         val settingsActivity = Intent(this,SettingsActivity::class.java)
         when (item.itemId) {
 
@@ -205,6 +206,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 settingsActivity.putExtra("user", user)
                 startActivity(settingsActivity)
 
+            }
+            R.id.nav_OrderHistory -> {
+                startActivity(orderListActivity)
             }
             R.id.nav_share -> {
 

@@ -11,6 +11,11 @@
             android:title="@string/admin_page_label"
             android:visible="false"/>
         <item
+            android:id="@+id/nav_OrderHistory"
+            android:icon="@drawable/basket1"
+            android:title="@string/orderHistory"
+            android:visible="true"/>
+        <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/account_settings_label" />
