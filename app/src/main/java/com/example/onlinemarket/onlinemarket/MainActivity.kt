@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var mMap: GoogleMap
     var user:User ?= null
 
+
     @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -155,6 +156,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
@@ -171,8 +173,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
+        }
+        else{
+            val homeIntent =  Intent(Intent.ACTION_MAIN, null)
+            homeIntent.addCategory(Intent.CATEGORY_HOME)
+            homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+            startActivity(homeIntent)
         }
     }
 
