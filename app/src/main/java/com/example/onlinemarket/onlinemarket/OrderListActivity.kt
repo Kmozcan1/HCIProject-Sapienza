@@ -250,5 +250,10 @@ class OrderListActivity : AppCompatActivity(), DialogFragmentListener{
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        ordersQuery!!.removeEventListener(ordersListener)
+        companiesQuery!!.removeEventListener(companiesListener)
+    }
 
 }
