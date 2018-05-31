@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var FBdatabase : DatabaseReference?= null
     private lateinit var mMap: GoogleMap
     var user:User ?= null
+
     @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +54,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         val editor:Editor = preferences!!.edit();
         editor.putInt("isLogged",1)
-        editor.commit();
+
+
 
 
         val toggle = ActionBarDrawerToggle(
@@ -68,6 +70,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navCityText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.city_label)
         val navAdminButton= nav_view.menu.getItem(0)
         user= intent.getSerializableExtra("User") as? User
+        editor.putString("email", user!!.email)
+        editor.commit();
         val FBuserDatabase= FirebaseDatabase.getInstance().getReference("user")
         FBuserDatabase!!.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(p0: DatabaseError?) {
