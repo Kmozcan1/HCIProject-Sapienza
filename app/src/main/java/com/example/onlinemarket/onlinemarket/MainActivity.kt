@@ -204,8 +204,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_share -> {
 
+
+
             }
             R.id.nav_send -> {
+                preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                val editor:Editor = preferences!!.edit();
+                editor.remove("isLogged");
+
+                editor.commit();
+                val loginActiv = Intent(this@MainActivity,LoginActivity::class.java)
+                startActivity(loginActiv)
 
             }
         }
