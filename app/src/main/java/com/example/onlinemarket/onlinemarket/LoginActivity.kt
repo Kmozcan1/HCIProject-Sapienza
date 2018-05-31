@@ -246,7 +246,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         mainActivityIntent.putExtra("userCountry", user.country)
         mainActivityIntent.putExtra("userMobilePhone", user.userMobilePhone)
         mainActivityIntent.putExtra("userPassword", user.userPassword)*/
-
+        Utilities.activeUser = user
         mainActivityIntent.putExtra("User", user)
         startActivity(mainActivityIntent)
     }

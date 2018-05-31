@@ -22,4 +22,11 @@
     <string name="companyClosingTime">Closing Time:</string>
     <string name="submitCompany">Submit Company</string>
     <string name="editCompany">Edit Company</string>
+    <string name="orderDate">Date: </string>
+    <string name="orderCompany">Company: </string>
+    <string name="activeOrdersTab">Active Orders</string>
+    <string name="orderHistory">Order History</string>
+    <string name="setStatusToDeliveredButton">Set Order Status to \"Delivered\"</string>
+    <string name="pastOrdersTab">Past Orders</string>
+    <string name="orderAddress">Address:</string>
 </resources>

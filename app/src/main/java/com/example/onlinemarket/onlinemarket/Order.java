@@ -2,8 +2,10 @@ package com.example.onlinemarket.onlinemarket;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class Order implements Serializable{
 
@@ -16,6 +18,38 @@ public class Order implements Serializable{
     private String Time;
     private String companyName;
     private Boolean isDone;
+    private String companyImage;
+    private ArrayList<OrderedProductData> orderedProducts;
+
+    public Order(String orderKey, Boolean isDone, String userEmail, String address, String zone,
+                 String companyName, Double totalPrice, String companyImage, ArrayList<OrderedProductData> orderedProducts, String time) {
+        this.orderKey = orderKey;
+        this.isDone=false;
+        this.userEmail = userEmail;
+        this.address= address;
+        this.zone= zone;
+        this.companyName= companyName;
+        TotalPrice = totalPrice;
+        this.orderedProducts = orderedProducts;
+        this.companyImage = companyImage;
+        this.Time = time;
+        this.isDone = isDone;
+    }
+
+    public Order(String orderKey, Boolean isDone, String userEmail, String address, String zone,
+                 String companyName, Double totalPrice, ArrayList<OrderedProductData> orderedProducts, String time) {
+        this.orderKey = orderKey;
+        this.isDone=false;
+        this.userEmail = userEmail;
+        this.address= address;
+        this.zone= zone;
+        this.companyName= companyName;
+        TotalPrice = totalPrice;
+        this.products = new HashMap<>();
+        this.orderedProducts = orderedProducts;
+        this.Time = time;
+        this.isDone = isDone;
+    }
 
     public Order(String orderKey, String userEmail, String address, String zone, String companyName) {
         this.orderKey = orderKey;
@@ -113,4 +147,7 @@ public class Order implements Serializable{
     public String getOrderKey() {
         return orderKey;
     }
+    public String getCompanyImage() { return companyImage; }
+    public ArrayList<OrderedProductData> getOrderedProducts() { return orderedProducts; }
+
 }
