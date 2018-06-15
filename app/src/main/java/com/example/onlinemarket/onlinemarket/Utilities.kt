@@ -116,6 +116,12 @@ class Utilities {
             })
         }
 
+        fun removeSingleProduct(key: String) {
+            val reference = getDatabase()!!.reference
+            var query = reference.child("products").child(key)
+            query.removeValue()
+        }
+
         fun updateProduct(product: Product) {
             val reference = getDatabase()!!.reference
             var query = reference.child("products").child(product.productKey)

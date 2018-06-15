@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,8 +71,12 @@ public class GridAdapter extends ArrayAdapter<Product> {
                 numberText.setText(hashMaps.get(tabID).get(position).toString());
                 String lastPrice = calculatePrice(totalPriceText.getText().toString(), singleProductItem.price, true).toString() + " €";
                 totalPriceText.setText(lastPrice);
-                if(hashMaps.get(tabID).get(position)==1)
-                    numberText.setBackgroundColor(Color.rgb(0,255,0));
+                if(hashMaps.get(tabID).get(position)==1) {
+                    numberText.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                    numberText.setTextColor(Color.WHITE);
+                }
+
+
             }
         });
         decreaseButton.setOnClickListener(new View.OnClickListener() {
@@ -85,8 +90,10 @@ public class GridAdapter extends ArrayAdapter<Product> {
                     String lastPrice = calculatePrice(totalPriceText.getText().toString(), singleProductItem.price, false).toString() + " €";
                     totalPriceText.setText(lastPrice);
                     numberText.setText(hashMaps.get(tabID).get(position).toString());
-                    if(hashMaps.get(tabID).get(position)==0)
+                    if(hashMaps.get(tabID).get(position)==0) {
                         numberText.setBackgroundColor(Color.parseColor("#F0F0F0"));
+                        numberText.setTextColor(Color.BLACK);
+                    }
                 }
             }
         });
