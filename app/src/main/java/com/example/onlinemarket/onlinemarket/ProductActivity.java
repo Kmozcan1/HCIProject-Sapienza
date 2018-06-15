@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -90,6 +91,9 @@ public class ProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
+        Utilities.Companion.handleProgressBarAction((ProgressBar)findViewById(R.id.product_progressBar), getWindow(), true);
+        //findViewById(R.id.container).setBackgroundColor(Color.GRAY);
+        findViewById(R.id.container).setBackgroundColor(Color.parseColor("#80D3D3D3"));
         companyName = getIntent().getSerializableExtra("companyName").toString();
         user = (User) getIntent().getSerializableExtra("user");
         order= (Order) getIntent().getSerializableExtra("order");
@@ -152,6 +156,8 @@ public class ProductActivity extends AppCompatActivity {
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         for(int i=0; i<9; i++)
             tabLayout.getTabAt(i).setIcon(ICONS[i]);
+
+
 
     }
 
@@ -268,15 +274,21 @@ public class ProductActivity extends AppCompatActivity {
                                 productList.add(product);
                             }
                     }
-                    GridAdapter gridAdapter = new GridAdapter(getActivity().getApplicationContext(), productList, priceText, sectionNumber,9,order);
-                    gridView.setAdapter(gridAdapter);
-                    query.removeEventListener(this);
+                    if (getActivity() != null) {
+                        GridAdapter gridAdapter = new GridAdapter(getActivity().getApplicationContext(), productList, priceText, sectionNumber,9,order);
+                        gridView.setAdapter(gridAdapter);
+                        query.removeEventListener(this);
+                        Utilities.Companion.handleProgressBarAction((ProgressBar)getActivity().findViewById(R.id.product_progressBar), getActivity().getWindow(), false);
+                        getActivity().findViewById(R.id.container).setBackgroundColor(Color.parseColor("#F0F0F0"));
+                    }
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
+
+
             });
             /*Utilities.Companion.getProducts(new FireBaseListener() {
                 @Override
@@ -298,7 +310,6 @@ public class ProductActivity extends AppCompatActivity {
                     gridView.setAdapter(gridAdapter);
                 }
             });*/
-
 
             return rootView;
         }

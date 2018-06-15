@@ -39,15 +39,20 @@ class OrderDetailsDialogFragment: DialogFragment(), DialogFragmentListener {
 
         if (Utilities.activeUser != null) {
             if (Utilities.activeUser!!.email == "admin@admin") {
-                builder.setView(view)
-                        .setPositiveButton(R.string.setStatusToDeliveredButton, object: DialogInterface.OnClickListener {
-                            override fun onClick(dialog: DialogInterface?, which: Int) {
-                                Utilities.updateOrder(order!!.orderKey)
-                                getDialog().dismiss()
-                                Toast.makeText(context,
-                                        "Order Status Updated", Toast.LENGTH_LONG).show()
-                            }
-                        })
+                if (order!!.done == false) {
+                    builder.setView(view)
+                            .setPositiveButton(R.string.setStatusToDeliveredButton, object: DialogInterface.OnClickListener {
+                                override fun onClick(dialog: DialogInterface?, which: Int) {
+                                    Utilities.updateOrder(order!!.orderKey)
+                                    getDialog().dismiss()
+                                    Toast.makeText(context,
+                                            "Order Status Updated", Toast.LENGTH_LONG).show()
+                                }
+                            })
+                }
+                else {
+                    builder.setView(view)
+                }
             }
         }
 

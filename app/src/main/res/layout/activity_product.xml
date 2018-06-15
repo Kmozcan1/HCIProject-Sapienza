@@ -154,7 +154,21 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="15sp" />
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/product_progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorWhite"
+            android:visibility="invisible"
+            tools:visibility="visible" />
     </LinearLayout>
+
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

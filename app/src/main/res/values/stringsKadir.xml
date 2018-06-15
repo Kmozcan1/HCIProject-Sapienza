@@ -29,4 +29,7 @@
     <string name="setStatusToDeliveredButton">Set Order Status to \"Delivered\"</string>
     <string name="pastOrdersTab">Past Orders</string>
     <string name="orderAddress">Address:</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="removeProduct">Remove Product</string>
+    <string name="title_orderListActivity">Order History</string>
 </resources>

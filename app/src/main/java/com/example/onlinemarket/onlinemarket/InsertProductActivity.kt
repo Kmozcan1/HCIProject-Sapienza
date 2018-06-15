@@ -1,6 +1,7 @@
 package com.example.onlinemarket.onlinemarket
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -20,6 +21,11 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
 import com.example.onlinemarket.onlinemarket.Utilities.Companion.openGallery
+import android.widget.Toast
+import android.content.DialogInterface
+import android.opengl.Visibility
+import android.view.View
+
 
 private const val PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 0
 private const val BROWSE_GALLERY_FOR_PRODUCT_IMAGE = 0
@@ -53,6 +59,17 @@ class InsertProductActivity : AppCompatActivity() {
         submitProduct_button.setOnClickListener {
             submitProduct()
         }
+        removeProduct_button.setOnClickListener {
+            AlertDialog.Builder(this)
+                    .setTitle("Remove Product")
+                    .setMessage("This action will remove the selected product?")
+                    .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener {
+                        dialog, whichButton -> Toast.makeText(this@InsertProductActivity, "Product has been removed.", Toast.LENGTH_SHORT).show()
+                        Utilities.removeSingleProduct(intent.getStringExtra("productKey"))
+                        finish()
+                    })
+                    .setNegativeButton(android.R.string.no, null).show()
+        }
         handleIncomingIntent(intent)
 
     }
@@ -77,6 +94,7 @@ class InsertProductActivity : AppCompatActivity() {
                     }
                 })
             }
+            removeProduct_button.visibility = View.VISIBLE
         }
     }
 
