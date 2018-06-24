@@ -58,7 +58,7 @@ public class GridAdapter extends ArrayAdapter<Product> {
         final TextView numberText= customView.findViewById(R.id.numberText);
         numberText.setText(hashMaps.get(tabID).get(position).toString());
         if(hashMaps.get(tabID).get(position)>0)
-            numberText.setBackgroundColor(Color.rgb(0,255,0));
+            numberText.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
 
 
         increaseButton.setOnClickListener(new View.OnClickListener() {
