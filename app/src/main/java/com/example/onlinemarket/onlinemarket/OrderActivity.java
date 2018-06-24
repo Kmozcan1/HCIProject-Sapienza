@@ -72,7 +72,7 @@ public class OrderActivity extends AppCompatActivity {
 
             orderProducts.put(key.getProductKey(), value);
 
-            products[count] = ( value.toString() + "x " + key.productName + "    " + (key.price*value)+"€");
+            products[count] = ( value.toString() + "x " + key.productName + "    " + String.format("%.02f",key.price*value)+"€");
             count++;
         }
 

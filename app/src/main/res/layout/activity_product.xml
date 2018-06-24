@@ -144,7 +144,7 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="15sp" />
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/countText"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_weight="1"
