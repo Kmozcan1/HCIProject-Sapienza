@@ -62,6 +62,7 @@ public class ProductActivity extends AppCompatActivity {
     public User user;
     public Order order;
     public Double TotalPrice;
+    public int totalproductcount;
 
     @Override
     public void onBackPressed() {
@@ -99,6 +100,7 @@ public class ProductActivity extends AppCompatActivity {
         order= (Order) getIntent().getSerializableExtra("order");
 
         TotalPrice= 0.0;
+        totalproductcount= 0;
 
         order.setDone(false);
 
@@ -258,6 +260,7 @@ public class ProductActivity extends AppCompatActivity {
 
             final GridView gridView=  rootView.findViewById(R.id.productGridView);
             final TextView priceText= getActivity().findViewById(R.id.priceText);
+            final TextView counttext= getActivity().findViewById(R.id.countText);
             final DatabaseReference query=  FirebaseDatabase.getInstance().getReference("products");
             query.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -275,7 +278,7 @@ public class ProductActivity extends AppCompatActivity {
                             }
                     }
                     if (getActivity() != null) {
-                        GridAdapter gridAdapter = new GridAdapter(getActivity().getApplicationContext(), productList, priceText, sectionNumber,9,order);
+                        GridAdapter gridAdapter = new GridAdapter(getActivity().getApplicationContext(), productList, priceText,counttext, sectionNumber,9,order);
                         gridView.setAdapter(gridAdapter);
                         query.removeEventListener(this);
                         Utilities.Companion.handleProgressBarAction((ProgressBar)getActivity().findViewById(R.id.product_progressBar), getActivity().getWindow(), false);

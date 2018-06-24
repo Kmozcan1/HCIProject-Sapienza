@@ -23,16 +23,18 @@ public class GridAdapter extends ArrayAdapter<Product> {
     private final Context context;
     private final ArrayList<Product> products;
     private final TextView totalPriceText;
+    private final TextView countText;
     public Order order;
     public ArrayList<HashMap<Integer,Integer>> hashMaps= new ArrayList<>();
     public int tabID;
 
-    public GridAdapter(Context context, ArrayList<Product> products, TextView totalPriceText, int tabID, int tabCount, Order order) {
+    public GridAdapter(Context context, ArrayList<Product> products, TextView totalPriceText, TextView countText ,int tabID, int tabCount, Order order) {
         super(context, 0, products);
         this.order=order;
         this.context = context;
         this.products = products;
         this.totalPriceText= totalPriceText;
+        this.countText = countText;
         this.tabID = tabID;
         for(int i=0; i<tabCount;i++)
             hashMaps.add(new HashMap<Integer,Integer>() );
@@ -57,8 +59,10 @@ public class GridAdapter extends ArrayAdapter<Product> {
         Button decreaseButton =customView.findViewById(R.id.decreaseButton);
         final TextView numberText= customView.findViewById(R.id.numberText);
         numberText.setText(hashMaps.get(tabID).get(position).toString());
-        if(hashMaps.get(tabID).get(position)>0)
+        if(hashMaps.get(tabID).get(position)>0) {
             numberText.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
+            numberText.setTextColor(Color.WHITE);
+        }
 
 
         increaseButton.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +75,10 @@ public class GridAdapter extends ArrayAdapter<Product> {
                 numberText.setText(hashMaps.get(tabID).get(position).toString());
                 String lastPrice = calculatePrice(totalPriceText.getText().toString(), singleProductItem.price, true).toString() + " €";
                 totalPriceText.setText(lastPrice);
+                int lastCount = Integer.parseInt(countText.getText().toString());
+                lastCount++;
+                countText.setText(String.valueOf(lastCount));
+
                 if(hashMaps.get(tabID).get(position)==1) {
                     numberText.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
                     numberText.setTextColor(Color.WHITE);
@@ -89,6 +97,11 @@ public class GridAdapter extends ArrayAdapter<Product> {
                     hashMaps.get(tabID).put(position,number);
                     String lastPrice = calculatePrice(totalPriceText.getText().toString(), singleProductItem.price, false).toString() + " €";
                     totalPriceText.setText(lastPrice);
+                    int lastCount = Integer.parseInt(countText.getText().toString());
+                    if(lastCount!=0) {
+                        lastCount--;
+                        countText.setText(String.valueOf(lastCount));
+                    }
                     numberText.setText(hashMaps.get(tabID).get(position).toString());
                     if(hashMaps.get(tabID).get(position)==0) {
                         numberText.setBackgroundColor(Color.parseColor("#F0F0F0"));
