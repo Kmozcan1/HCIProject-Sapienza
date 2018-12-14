@@ -48,4 +48,17 @@
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/OrderListCompanyImage_imageView"
         app:layout_constraintTop_toTopOf="@+id/OrderListCompanyImage_imageView" />
+
+    <TextView
+        android:id="@+id/orderNo_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/OrderListCompanyImage_imageView"
+        app:layout_constraintStart_toEndOf="@+id/OrderListCompanyImage_imageView"
+        app:layout_constraintTop_toTopOf="@+id/OrderListCompanyImage_imageView" />
 </android.support.constraint.ConstraintLayout>

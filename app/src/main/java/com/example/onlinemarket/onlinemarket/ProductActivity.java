@@ -129,6 +129,7 @@ public class ProductActivity extends AppCompatActivity {
                     orderPage.putExtra("user", user);
                     order.setTime();
                     order.setCompanyName(companyName);
+                    order.setOrderNo();
                     //orderPage.putExtra("order", order);
                     Utilities.Companion.setOrder(order);
                     startActivity(orderPage);

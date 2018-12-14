@@ -24,6 +24,7 @@ import com.example.onlinemarket.onlinemarket.R.string.companyName
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_order_list.*
 import kotlinx.android.synthetic.main.fragment_order_list.*
+import java.util.*
 
 private var orderListtItemList = mutableListOf<Order>()
 private var companiesListener: ValueEventListener? = null
@@ -99,9 +100,11 @@ class OrderListActivity : AppCompatActivity(), DialogFragmentListener{
                             Order(order!!.orderKey, order!!.done, order!!.userEmail,
                                     order!!.address, order!!.zone, order!!.companyName,
                                     order!!.totalPrice, companyMap[order!!.companyName],
-                                    order!!.orderedProducts, order.time)
+                                    order!!.orderedProducts, order.time, order!!.orderNo)
                     orderListtItemList.add(orderListItem)
                 }
+
+                orderListtItemList = orderListtItemList.asReversed()
 
                 // Create the adapter that will return a fragment for each of the three
                 // primary sections of the activity.

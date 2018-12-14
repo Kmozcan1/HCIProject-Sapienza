@@ -29,10 +29,12 @@ class OrderListViewAdapter(context: Context, resource: Int, list: MutableList<Or
         val orderPriceTextView = view.findViewById<TextView>(R.id.orderPrice_textView)
         val orderStatusTextView = view.findViewById<TextView>(R.id.orderStatus_textView)
         val companyImageView = view.findViewById<ImageView>(R.id.OrderListCompanyImage_imageView)
+        val orderNoTextView = view.findViewById<TextView>(R.id.orderNo_textView)
 
         //Fill layout elements
         orderAddressTextView.text = order.address
-        orderPriceTextView.text = order.totalPrice.toString()
+        orderPriceTextView.text = order.totalPrice.toString() + " €"
+        orderNoTextView.text = order.orderNo
         companyImageView.setImageBitmap(imageTransform.StringToBitmap(order.companyImage))
 
         if (order.done) {

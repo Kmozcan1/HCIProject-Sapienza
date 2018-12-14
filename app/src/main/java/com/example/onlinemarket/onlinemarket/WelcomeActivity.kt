@@ -34,6 +34,7 @@ class WelcomeActivity : AppCompatActivity() {
         if(isLogged==1){
 
             val mainActivity = Intent(this@WelcomeActivity,MainActivity::class.java)
+            val adminActivity = Intent(this@WelcomeActivity,AdminActivity::class.java)
             val FBuserDatabase= FirebaseDatabase.getInstance().getReference("users")
             FBuserDatabase!!.addValueEventListener(object: ValueEventListener {
                 override fun onCancelled(p0: DatabaseError?) {
@@ -58,8 +59,18 @@ class WelcomeActivity : AppCompatActivity() {
                             Handler().postDelayed(object :Runnable{
                                 public override fun run() {
                                     Utilities.activeUser = user
-                                    mainActivity.putExtra("User", user)
-                                    startActivity(mainActivity)
+                                    if (user.email == "admin@admin" ||
+                                            user.email == "conad@conad" ||
+                                            user.email == "carrefour@carrefour") {
+
+                                        Utilities.activeUser = user
+                                        adminActivity.putExtra("User", user)
+                                        startActivity(adminActivity)
+                                    }
+                                    else {
+                                        mainActivity.putExtra("User", user)
+                                        startActivity(mainActivity)
+                                    }
                                     finish()
                                 }
                             },waitingTime!!.toLong())

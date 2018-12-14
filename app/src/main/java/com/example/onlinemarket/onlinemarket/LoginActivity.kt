@@ -159,12 +159,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             focusView = password_login
             cancel = true
         }
-        /*else if(emailStr.equals("admin")){
-            if(passwordStr.equals("9876")){
-                val adminIntent = Intent(this,AdminActivity::class.java)
-                startActivity(adminIntent)
-            }
-        }*/
+
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -226,7 +221,13 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
                         Toast.makeText(applicationContext,"Login successful! ", Toast.LENGTH_LONG).show()
 
                         // direct to the relevant activity
-                        directMainActivity(loggedUser!!)
+                        if(email.text.toString() == "conad@conad" || email.text.toString() == "carrefour@carrefour" || email.text.toString() == "admin@admin"){
+                            directAdminActivity(loggedUser!!)
+                        }
+                        else {
+                            directMainActivity(loggedUser!!)
+                        }
+
                         //FILL HERE LATER
                     }
                     else{
@@ -238,6 +239,13 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             }
         })
 
+    }
+
+    private fun directAdminActivity(user: User){
+        val adminActivityIntent = Intent(this,AdminActivity::class.java)
+        Utilities.activeUser = user
+        adminActivityIntent.putExtra("User", user)
+        startActivity(adminActivityIntent)
     }
 
     private fun directMainActivity(user: User){

@@ -13,6 +13,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.ProgressBar
 import com.example.onlinemarket.onlinemarket.R.id.order
+import com.example.onlinemarket.onlinemarket.R.string.companyName
 import com.example.onlinemarket.onlinemarket.R.string.productName
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
@@ -49,8 +50,15 @@ class Utilities {
 
         fun getProducts(listener: FireBaseListener){
             val productList = ArrayList<Product?>()
+
             val reference = getDatabase()!!.reference
-            val query = reference.child("products")
+            val email = Utilities.activeUser!!.email
+            var query = reference.child("products").orderByChild("company")
+            if (email == "conad@conad") {
+                query = reference.child("products").orderByChild("company").equalTo("Conad")
+            } else if (email == "carrefour@carrefour") {
+                query = reference.child("products").orderByChild("company").equalTo("Carrefour")
+            }
             query!!.addValueEventListener(object: ValueEventListener{
                 override fun onCancelled(p0: DatabaseError?) {
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -68,7 +76,7 @@ class Utilities {
                             val product = Product(productKey, productName, price, company, productImage, category)
                             productList.add(product)
                         }
-                        listener.onCallBack(productList, this, query)
+                        listener.onCallBack(productList, this, query.ref)
                     }
                 }
             })
@@ -172,8 +180,12 @@ class Utilities {
             val orderList = ArrayList<Order?>()
             val reference = getDatabase()!!.reference
             var query = reference.child("orders").orderByChild("email").equalTo(email)
-            if (email == "admin@admin") {
+            if (email == "admin@admin" ) {
                 query = reference.child("orders").orderByChild("email")
+            } else if (email == "conad@conad") {
+                    query = reference.child("orders").orderByChild("companyName").equalTo("Conad")
+            } else if (email == "carrefour@carrefour") {
+                query = reference.child("orders").orderByChild("companyName").equalTo("Carrefour")
             }
             query!!.addValueEventListener(object: ValueEventListener{
                 override fun onCancelled(p0: DatabaseError?) {
@@ -191,6 +203,7 @@ class Utilities {
                             val price = orderObj.child("price").getValue(Double::class.java)
                             val time = orderObj.child("time").getValue(String::class.java)
                             val zone = orderObj.child("zone").getValue(String::class.java)
+                            val orderNo = orderObj.child("orderNo").getValue(String::class.java)
                             val orderedProducts = orderObj.child("orderedproducts")
                             var orderedProductData: OrderedProductData? = null
                             val orderedProductList = ArrayList<OrderedProductData?>()
@@ -214,7 +227,7 @@ class Utilities {
                                     String companyName, Double totalPrice, List<Product> productList, String time) {
                             }*/
 
-                            val order = Order(key, isDone, email, address, zone, companyName, price, orderedProductList, time)
+                            val order = Order(key, isDone, email, address, zone, companyName, price, orderedProductList, time, orderNo)
                             orderList.add(order)
                         }
                         listener.onCallBack(orderList, this, query.ref)
