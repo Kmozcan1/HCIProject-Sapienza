@@ -115,7 +115,7 @@ public class OrderActivity extends AppCompatActivity {
                 orderData.put("address", order.getAddress());
                 orderData.put("isDone", false);
                 orderData.put("companyName", order.getCompanyName());
-
+                orderData.put("orderNo", order.getOrderNo());
                 ref.child(orderID).setValue(orderData);
                 for (Map.Entry<Product, Integer> entry : productList.entrySet()) {
                     Product key = entry.getKey();

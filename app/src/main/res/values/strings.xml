@@ -48,7 +48,7 @@
     <string name="productsTitle">Product Categories</string>
     <string name="priceTitle">Total Price:</string>
     <string name="selectedItemTitle">Selected Items:</string>
-    <string name="admin_page_label">Admin Page</string>
+    <string name="admin_page_label">Staff Page</string>
     <string name="account_settings_label">Account Settings</string>
     <string name="communicate_label">Manage</string>
     <string name="sharelabel">Share</string>

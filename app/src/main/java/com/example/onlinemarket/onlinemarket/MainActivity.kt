@@ -70,7 +70,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navAddressText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.address_label)
         val navCityText = nav_view.getHeaderView(0).findViewById<TextView>(R.id.city_label)
         val navAdminButton= nav_view.menu.getItem(0)
-        user= intent.getSerializableExtra("User") as? User
+        //user= intent.getSerializableExtra("User") as? User
+        user = Utilities.activeUser
         editor.putString("email", user!!.email)
         editor.commit();
         val FBuserDatabase= FirebaseDatabase.getInstance().getReference("user")
@@ -97,7 +98,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navEmailText.text=  user!!.email
         navAddressText.text= user!!.address
         navCityText.text=user!!.city
-        if(navEmailText.text == "admin@admin")
+        if(navEmailText.text == "admin@admin" ||
+                navEmailText.text == "conad@conad" ||
+                navEmailText.text == "carrefour@carrefour")
             navAdminButton.setVisible(true)
         navNameText.text= user!!.firstName + " " + user!!.lastname
 

@@ -38,7 +38,9 @@ class OrderDetailsDialogFragment: DialogFragment(), DialogFragmentListener {
         val view = inflater.inflate(R.layout.dialog_orderdetails, null)
 
         if (Utilities.activeUser != null) {
-            if (Utilities.activeUser!!.email == "admin@admin") {
+            if (Utilities.activeUser!!.email == "admin@admin" ||
+                    Utilities.activeUser!!.email == "conad@aconad" ||
+                    Utilities.activeUser!!.email == "carrefour@carrefour") {
                 if (order!!.done == false) {
                     builder.setView(view)
                             .setPositiveButton(R.string.setStatusToDeliveredButton, object: DialogInterface.OnClickListener {
@@ -56,6 +58,7 @@ class OrderDetailsDialogFragment: DialogFragment(), DialogFragmentListener {
             }
         }
 
+        builder.setView(view)
         //Fill out the TextViews
         val orderDateValueTextView = view.findViewById<TextView>(R.id.orderDateValue_textView)
         val orderCompanyValueTextView = view.findViewById<TextView>(R.id.orderCompanyValue_textView)

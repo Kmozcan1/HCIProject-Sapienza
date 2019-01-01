@@ -19,10 +19,14 @@ public class Order implements Serializable{
     private String companyName;
     private Boolean isDone;
     private String companyImage;
+
+
+
+    private String orderNo;
     private ArrayList<OrderedProductData> orderedProducts;
 
     public Order(String orderKey, Boolean isDone, String userEmail, String address, String zone,
-                 String companyName, Double totalPrice, String companyImage, ArrayList<OrderedProductData> orderedProducts, String time) {
+                 String companyName, Double totalPrice, String companyImage, ArrayList<OrderedProductData> orderedProducts, String time, String orderNo) {
         this.orderKey = orderKey;
         this.isDone=false;
         this.userEmail = userEmail;
@@ -33,11 +37,12 @@ public class Order implements Serializable{
         this.orderedProducts = orderedProducts;
         this.companyImage = companyImage;
         this.Time = time;
+        this.orderNo = orderNo;
         this.isDone = isDone;
     }
 
     public Order(String orderKey, Boolean isDone, String userEmail, String address, String zone,
-                 String companyName, Double totalPrice, ArrayList<OrderedProductData> orderedProducts, String time) {
+                 String companyName, Double totalPrice, ArrayList<OrderedProductData> orderedProducts, String time, String orderNo) {
         this.orderKey = orderKey;
         this.isDone=false;
         this.userEmail = userEmail;
@@ -49,6 +54,7 @@ public class Order implements Serializable{
         this.orderedProducts = orderedProducts;
         this.Time = time;
         this.isDone = isDone;
+        this.orderNo = orderNo;
     }
 
     public Order(String orderKey, String userEmail, String address, String zone, String companyName) {
@@ -124,6 +130,16 @@ public class Order implements Serializable{
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo() {
+        SimpleDateFormat ft = new SimpleDateFormat("yyMMddhhmmssMs");
+        String datetime = ft.format(new Date());
+        this.orderNo = datetime;
     }
 
     public void InsertProduct(Product product){
