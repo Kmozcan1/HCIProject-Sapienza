@@ -25,7 +25,11 @@
 
     <string-array name="zoneNamesRoma">
         <item>--Select your zone--</item>
-        <item>  Bologna, Policlinico</item>
+        <item>Bologna, Policlinico</item>
+        <item>Pigneto, San Lorenzo, Casal Bertone</item>
+        <item>Re di Roma, San Giovanni</item>
+        <item>Testaccio, Trastevere</item>
+
     </string-array>
     <string name="title_activity_main">Choose Company</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

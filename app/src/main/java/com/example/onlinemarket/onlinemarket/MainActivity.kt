@@ -161,16 +161,53 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+
+
+        var userZone =user!!.zone
         mMap = googleMap
 
-        val conad = LatLng(41.919742, 12.522352)
-        mMap.addMarker(MarkerOptions().position(conad).title("Conad"))
+        if(userZone.equals("Bologna, Policlinico")){
+            val conad = LatLng(41.919742, 12.522352)
+            val carre = LatLng(41.919296, 12.520331)
+            mMap.addMarker(MarkerOptions().position(conad).title("Conad"))
+            val between =  LatLng((carre.latitude+ conad.latitude)/2 , (carre.longitude+ conad.longitude)/2)
+            mMap.addMarker(MarkerOptions().position(carre).title("Carrefour"))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom((between), 15.0f))
+        }
+        else if(userZone.equals("Pigneto, San Lorenzo, Casal Bertone")){
+            val conad = LatLng(41.895641, 12.517378)
+            val carre = LatLng(41.898213, 12.517784)
+            mMap.addMarker(MarkerOptions().position(conad).title("Conad"))
+            val between =  LatLng((carre.latitude+ conad.latitude)/2 , (carre.longitude+ conad.longitude)/2)
+            mMap.addMarker(MarkerOptions().position(carre).title("Carrefour"))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom((between), 15.0f))
+        }
+        else if(userZone.equals("Re di Roma, San Giovanni")){
+            val conad = LatLng(41.880530, 12.516353)
+            val carre = LatLng(41.878919, 12.509665)
+            mMap.addMarker(MarkerOptions().position(conad).title("Conad"))
+            val between =  LatLng((carre.latitude+ conad.latitude)/2 , (carre.longitude+ conad.longitude)/2)
+            mMap.addMarker(MarkerOptions().position(carre).title("Carrefour"))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom((between), 15.0f))
+        }
+        else if(userZone.equals("Testaccio, Trastevere")){
+            val conad = LatLng(41.886908, 12.471914)
+            val carre = LatLng(41.885867, 12.472178)
+            mMap.addMarker(MarkerOptions().position(conad).title("Conad"))
+            val between =  LatLng((carre.latitude+ conad.latitude)/2 , (carre.longitude+ conad.longitude)/2)
+            mMap.addMarker(MarkerOptions().position(carre).title("Carrefour"))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom((between), 15.0f))
+        }
+        else{
+            val conad = LatLng(41.919742, 12.522352)
+            val carre = LatLng(41.919296, 12.520331)
+            mMap.addMarker(MarkerOptions().position(conad).title("Conad"))
+            val between =  LatLng((carre.latitude+ conad.latitude)/2 , (carre.longitude+ conad.longitude)/2)
+            mMap.addMarker(MarkerOptions().position(carre).title("Carrefour"))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom((between), 15.0f))
+        }
 
-        val carre = LatLng(41.919296, 12.520331)
-
-        val between =  LatLng((carre.latitude+ conad.latitude)/2 , (carre.longitude+ conad.longitude)/2)
-        mMap.addMarker(MarkerOptions().position(carre).title("Carrefour"))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom((between), 15.0f))
+            //
     }
 
     override fun onBackPressed() {

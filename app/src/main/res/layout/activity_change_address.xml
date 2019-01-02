@@ -30,6 +30,12 @@
                 android:layout_height="66dp"
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp" />
+            <Spinner
+                android:id="@+id/zoneListSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Select Zone"
+                />
 
             <MultiAutoCompleteTextView
                 android:id="@+id/addressArea"

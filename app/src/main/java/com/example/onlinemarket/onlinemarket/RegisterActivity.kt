@@ -136,21 +136,7 @@ class RegisterActivity : AppCompatActivity() {
 
 
             }
-            /*for(userItem in userList!!){
-                if(userItem.email.equals(register_email.text.toString())){
-                    println("Already registered e-mail addresses are :")
-                    print("HERE :")
-                    print(userItem.email)
-                    userAlreadyExist = true
-                    cancel = true
-                    break;
-                }
-                else{
-                    userAlreadyExist = false
-                    cancel = false
-                }
 
-            }*/
             if(userAlreadyExist!!){
                 register_email.error = "Please enter different e-mail address"
                 focusView = register_email
