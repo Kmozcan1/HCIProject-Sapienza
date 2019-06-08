@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
+
+
         <service
             android:name=".MyFirebaseMessagingService">
             <intent-filter>

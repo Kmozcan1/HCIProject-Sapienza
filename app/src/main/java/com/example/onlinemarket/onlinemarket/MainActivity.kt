@@ -100,7 +100,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navCityText.text=user!!.city
         if(navEmailText.text == "admin@admin" ||
                 navEmailText.text == "conad@conad" ||
-                navEmailText.text == "carrefour@carrefour")
+                navEmailText.text == "carrefour@carrefour" ||
+                navEmailText.text == "carrefourdelivery@carrefour" ||
+                navEmailText.text == "conaddelivery@conad")
             navAdminButton.setVisible(true)
         navNameText.text= user!!.firstName + " " + user!!.lastname
 

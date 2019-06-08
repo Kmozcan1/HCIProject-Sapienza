@@ -61,7 +61,9 @@ class WelcomeActivity : AppCompatActivity() {
                                     Utilities.activeUser = user
                                     if (user.email == "admin@admin" ||
                                             user.email == "conad@conad" ||
-                                            user.email == "carrefour@carrefour") {
+                                            user.email == "carrefour@carrefour" ||
+                                            user.email == "carrefourdelivery@carrefour" ||
+                                            user.email == "conaddelivery@conad") {
 
                                         Utilities.activeUser = user
                                         adminActivity.putExtra("User", user)

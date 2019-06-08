@@ -61,7 +61,13 @@ class AdminActivity : AppCompatActivity() {
         if(Utilities.activeUser!!.email == "conad@conad" ||
                 Utilities.activeUser!!.email == "carrefour@carrefour") {
             insert_company_button.visibility = View.GONE
+            //edit_company_button.visibility = View.GONE
+        } else if (Utilities.activeUser!!.email == "conaddelivery@conad" ||
+                Utilities.activeUser!!.email == "carrefourdelivery@carrefour") {
+            insert_company_button.visibility = View.GONE
             edit_company_button.visibility = View.GONE
+            edit_product_button.visibility = View.GONE
+            insert_product_button.visibility = View.GONE
         }
 
     }

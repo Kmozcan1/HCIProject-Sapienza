@@ -221,7 +221,8 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
                         Toast.makeText(applicationContext,"Login successful! ", Toast.LENGTH_LONG).show()
 
                         // direct to the relevant activity
-                        if(email.text.toString() == "conad@conad" || email.text.toString() == "carrefour@carrefour" || email.text.toString() == "admin@admin"){
+                        if(email.text.toString() == "conad@conad" || email.text.toString() == "carrefour@carrefour" || email.text.toString() == "admin@admin" ||
+                                email.text.toString() == "carrefourdelivery@carrefour" || email.text.toString() == "conaddelivery@conad"){
                             directAdminActivity(loggedUser!!)
                         }
                         else {

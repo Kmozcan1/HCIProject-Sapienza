@@ -40,7 +40,9 @@ class OrderDetailsDialogFragment: DialogFragment(), DialogFragmentListener {
         if (Utilities.activeUser != null) {
             if (Utilities.activeUser!!.email == "admin@admin" ||
                     Utilities.activeUser!!.email == "conad@aconad" ||
-                    Utilities.activeUser!!.email == "carrefour@carrefour") {
+                    Utilities.activeUser!!.email == "carrefour@carrefour" ||
+                    Utilities.activeUser!!.email == "carrefourdelivery@carrefour" ||
+                    Utilities.activeUser!!.email == "conaddelivery@conad") {
                 if (order!!.done == false) {
                     builder.setView(view)
                             .setPositiveButton(R.string.setStatusToDeliveredButton, object: DialogInterface.OnClickListener {

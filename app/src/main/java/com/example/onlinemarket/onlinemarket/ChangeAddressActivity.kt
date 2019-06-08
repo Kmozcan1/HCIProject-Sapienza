@@ -12,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_change_address.*
 
+
 class ChangeAddressActivity : AppCompatActivity() {
 
     var address : String ?= null

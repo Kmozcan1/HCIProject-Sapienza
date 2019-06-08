@@ -153,7 +153,12 @@ class Utilities {
             val companyList = ArrayList<Company?>()
             val reference = getDatabase()!!.reference
 
-            val query = reference.child("companies")
+            var query = reference.child("companies").orderByChild("companyName")
+            if (Utilities.activeUser!!.email == "conad@conad") {
+                query = reference.child("companies").orderByChild("companyName").equalTo("Conad")
+            } else if (Utilities.activeUser!!.email == "carrefour@carrefour") {
+                query = reference.child("companies").orderByChild("companyName").equalTo("Carrefour")
+            }
             query!!.addValueEventListener(object: ValueEventListener{
                 override fun onCancelled(p0: DatabaseError?) {
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -170,7 +175,7 @@ class Utilities {
                             val company = Company(key, name, image, openTime, closeTime)
                             companyList.add(company)
                         }
-                        listener.onCallBack(companyList, this, query)
+                        listener.onCallBack(companyList, this, query.ref)
                     }
                 }
             })
@@ -182,9 +187,9 @@ class Utilities {
             var query = reference.child("orders").orderByChild("email").equalTo(email)
             if (email == "admin@admin" ) {
                 query = reference.child("orders").orderByChild("email")
-            } else if (email == "conad@conad") {
+            } else if (email == "conad@conad" || email == "conaddelivery@conad") {
                     query = reference.child("orders").orderByChild("companyName").equalTo("Conad")
-            } else if (email == "carrefour@carrefour") {
+            } else if (email == "carrefour@carrefour" || email == "carrefourdelivery@carrefour") {
                 query = reference.child("orders").orderByChild("companyName").equalTo("Carrefour")
             }
             query!!.addValueEventListener(object: ValueEventListener{
